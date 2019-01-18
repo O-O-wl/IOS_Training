@@ -79,6 +79,8 @@ class MemoFormVC: UIViewController,UINavigationControllerDelegate {
         data.title = self.subject
         data.contents = self.contents.text
         data.regdate = Date()
+        data.image = (self.preview.image)
+        
         
     }
     
@@ -105,6 +107,7 @@ extension MemoFormVC : UIImagePickerControllerDelegate{
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         self.preview.image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
         // 자동으로 picker를 self로 링킹
+        
         picker.dismiss(animated: false, completion: nil)
     }
     

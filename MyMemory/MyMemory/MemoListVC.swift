@@ -11,64 +11,61 @@ import UIKit
 class MemoListVC: UITableViewController {
 
     var memos = [MemoData]()
-    var appDelegate : AppDelegate?
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+   
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        appDelegate = UIApplication.shared.delegate as? AppDelegate
-       
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.memos = appDelegate!.memoList
+        //self.memos = appDelegate.memoList
         self.tableView.reloadData()
     }
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        print(self.memos.count)
-        return self.memos.count
+      //  print("self.memos.count")
+        return self.appDelegate.memoList.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        var cell : MemoCell
-        
-        if memos[indexPath.row].image == nil{
-                cell = tableView.dequeueReusableCell(withIdentifier: "memoCell", for: indexPath) as! MemoCell
-          
-        }
-        else{
-             cell = tableView.dequeueReusableCell(withIdentifier: "memoCellWithImage", for: indexPath) as! MemoCell
-      
-        }
-        
-        print("실행")
-         return filCell(cell: cell, data: memos[indexPath.row])
-    }
-    
-    func filCell( cell:MemoCell , data: MemoData) -> MemoCell{
-        
-        
-        
-        cell.subject.text = data.title
-        cell.contents.text = data.contents
+        let cellId = self.appDelegate.memoList[indexPath.row].image == nil ? "memoCell" : "memoCellWithImage"
+        let data = self.appDelegate.memoList[indexPath.row]
+        print(cellId)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId) as! MemoCell
+        cell.subject?.text = data.title
+        cell.contents?.text = data.contents
         cell.img?.image = data.image
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        
-        cell.regDate.text = formatter.string(from: data.regdate!)
+        cell.regDate?.text = formatter.string(from: data.regdate!)
         
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        performSegue(withIdentifier: "read_sg", sender: tableView.cellForRow(at: indexPath))
+        print("세그웨이 행")
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if(segue.identifier == "read_sg"){
+            let selectedMemo = sender as! MemoCell
+            (segue.destination as! MemoReadVC).memo = self.appDelegate.memoList[(tableView.indexPath(for: selectedMemo))!.row]
+            
+        }
+    }
+    
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
