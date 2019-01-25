@@ -24,31 +24,31 @@ class NewAppDelegate : UIResponder,UIApplicationDelegate{
         //let tbItem = tvc.tabBarItem
         
         if let tbItems = tvc.tabBar.items{
-
+            
             tbItems[0].image = UIImage(named: "calendar.png")
             tbItems[0].title = "calender"
             tbItems[1].image = UIImage(named: "file-tree.png")
             tbItems[1].title = "file"
             tbItems[2].image = UIImage(named: "photo.png")
             tbItems[2].title = "photo"
-        
-        // 탭바 자체의 색
-        tvc.tabBar.barTintColor  = UIColor(patternImage: UIImage(named: "menubar-bg")! )
-        /// - Note: 외형프락시 객체를 통한 공통속성제어
-        let tbItemProxy = UITabBarItem.appearance() // 프락시 참조
-        
-        tbItemProxy.setTitleTextAttributes([NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue) : UIColor.red], for:  .selected)
-        tbItemProxy.setTitleTextAttributes([NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue) : UIColor.gray], for:  .disabled)
-        tbItemProxy.setTitleTextAttributes([NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue) : UIFont.systemFont(ofSize: 15)], for:  .normal)
-        
-        for tbItem in tbItems{
-            tbItem.selectedImage = UIImage(named: "checkmark")
+            
+            // 탭바 자체의 색
+            tvc.tabBar.barTintColor  = UIColor(patternImage: UIImage(named: "menubar-bg")! )
+            /// - Note: 외형프락시 객체를 통한 공통속성제어
+            let tbItemProxy = UITabBarItem.appearance() // 프락시 참조
+            
+            tbItemProxy.setTitleTextAttributes([NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue) : UIColor.red], for:  .selected)
+            tbItemProxy.setTitleTextAttributes([NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue) : UIColor.gray], for:  .disabled)
+            tbItemProxy.setTitleTextAttributes([NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue) : UIFont.systemFont(ofSize: 15)], for:  .normal)
+            
+            for tbItem in tbItems{
+                tbItem.selectedImage = UIImage(named: "checkmark")
+            }
+            
+            
+            
         }
         
         
-    
-        }
-
-    
-}
+    }
 }
