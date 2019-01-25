@@ -42,13 +42,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 /// - Note: 활성 탭 아이템 색상
                 tvc.tabBar.tintColor = UIColor.white
                 
-               // tvc.tabBar.backgroundImage = UIImage(named: "menubar-bg")?
-               //     .stretchableImage(withLeftCapWidth: 5, topCapHeight:0)
+                // tvc.tabBar.backgroundImage = UIImage(named: "menubar-bg")?
+                //     .stretchableImage(withLeftCapWidth: 5, topCapHeight:0)
+                
+                
                 // 탭바 자체의 색
                 tvc.tabBar.barTintColor  = UIColor(patternImage: UIImage(named: "menubar-bg")! )
-                for tabItem in tbItems {
-                    tabItem.selectedImage = UIImage(named: "checkmark")
+                /// - Note: 외형프락시 객체를 통한 공통속성제어
+                let tbItemProxy = UITabBarItem.appearance() // 프락시 참조
+                
+                tbItemProxy.setTitleTextAttributes([NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue) : UIColor.red], for:  .selected)
+                tbItemProxy.setTitleTextAttributes([NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue) : UIColor.gray], for:  .disabled)
+                tbItemProxy.setTitleTextAttributes([NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue) : UIFont.systemFont(ofSize: 15)], for:  .normal)
+                
+                for tbItem in tbItems{
+                    tbItem.selectedImage = UIImage(named: "checkmark")
                 }
+                
             }
            
         }
