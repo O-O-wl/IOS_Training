@@ -23,7 +23,12 @@ class FrontViewController: UIViewController {
                 이벤트 타입은 touchUpInside 로 통일 - UIBarButtonItem
             *******************************************************/
             self.sideBarButton.target = revealVC
+            
+            /// - Note: revealVC.revealToggle(_:) 구현되어있는 토글방식으로 사이드바 조작하는메소드
             self.sideBarButton.action = #selector(revealVC.revealToggle(_:))
+            
+            /// - Note: 제스처 구현 식
+            self.view.addGestureRecognizer(revealVC.panGestureRecognizer())
         }
         
     }
