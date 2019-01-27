@@ -12,8 +12,11 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+               //self.addTitleItem()
+        
+        self.initTitleInput2()
         self.titleUrl()
-        self.addTitleItem()
+
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -117,21 +120,76 @@ class ViewController: UIViewController {
         
         title.backgroundColor = .white
         
-        
+        // 네비게이션아이템은 단일 뷰
         self.navigationItem.titleView = title
+        
+        
+        // 네비게이션 컨트롤러는 앱 전체의 네비게이션 속성
+        /// - Note: barTintColor : 네비바 전체 색 / tintColor 아이템들의 tintcolor
         self.navigationController?.navigationBar.barTintColor = .gray
+        self.navigationController?.navigationBar.tintColor = .white
     }
     
     func addTitleItem(){
-        let item = UIBarButtonItem(barButtonSystemItem: .done, target: <#T##Any?#>, action: <#T##Selector?#>)
+        let more = UIImage(named: "more")
+        
+        /** **************************************************************************
+              - Note: UIBarButtonItem 는 뷰를 상속하지 않으므로 addSubView x
+              - Note: target  - 액션메소드가 정의되어 있는 클래스
+        *******************************************************************************/
+        let item = UIBarButtonItem(image: more, style: .done, target: self, action: #selector(nextPage))
+        //item.tintColor = .white
+        self.navigationItem.rightBarButtonItem = item
     }
 
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    @objc func nextPage(){
         performSegue(withIdentifier: "test", sender: self)
     }
     
+    func initTitleInput(){
+        let v = UIView()
+        v.frame = CGRect(x: 0, y: 0, width: 150, height: 37)
+        v.backgroundColor = .purple
+        
+        let v2 = UIView()
+        v2.frame = CGRect(x: 0, y: 0, width: 100, height: 37)
+        v2.backgroundColor = .red
+        
+        let leftItem = UIBarButtonItem(customView: v)
+        let rightItem = UIBarButtonItem(customView: v2)
+        self.navigationItem.leftBarButtonItem = leftItem
+        self.navigationItem.rightBarButtonItem = rightItem
+    }
     
     
+    func initTitleInput2(){
+        let v = UIView()
+        v.frame = CGRect(x: 0, y: 0, width: 70, height: 37)
+        
+        
+        let windows = UILabel()
+        windows.frame = CGRect(x: 0, y: 0, width:35, height: 37)
+        windows.layer.cornerRadius = 5
+        windows.textAlignment = .center
+        windows.text = "12"
+        windows.layer.borderWidth = 3
+        windows.layer.borderColor = UIColor.black.cgColor
+        
+        let more = UIImage(named: "more")
+        
+       
+        
+       let item = UIButton(frame: CGRect(x: 40, y: 0, width:35, height: 37))
+        item.setImage(more, for: .normal)
+        item.addTarget(self, action: #selector(nextPage), for: .touchUpInside)
+        
+        
+        
+        v.addSubview(windows)
+        v.addSubview(item)
+        let rightItem = UIBarButtonItem(customView: v)
+        self.navigationItem.rightBarButtonItem = rightItem
+    }
    
 }
 
