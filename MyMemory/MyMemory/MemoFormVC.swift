@@ -16,6 +16,28 @@ class MemoFormVC: UIViewController,UINavigationControllerDelegate {
         ///  텍스트뷰의 delegate인스턴스로 self VC에 위임함
         self.contents.delegate = self
         // Do any additional setup after loading the view.
+        
+        
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named:"memo-background")!)
+        self.contents.layer.borderWidth = 0
+        self.contents.layer.borderColor = UIColor.clear.cgColor
+        self.contents.backgroundColor = .clear
+        /** ===================================================================//
+         - Note: 줄간격
+        =======================================================================*/
+        let style = NSMutableParagraphStyle() //간격조정객체 생성
+        style.lineSpacing = 10 // 줄사이간격 설정
+        self.contents.attributedText = NSAttributedString(string: " ", attributes: [NSAttributedString.Key.paragraphStyle:style]) //설정된 간격 속성으로 설정
+        self.contents.text = ""
+    }
+    /** ===================================================================//
+     - Note: 터치시 네비바 사라지는 애니메이션
+     =======================================================================*/
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let bar = self.navigationController?.navigationBar
+        UIView.animate(withDuration: TimeInterval(1)){
+            bar?.alpha = (bar?.alpha == 1 ) ? 0 : 1
+        }
     }
 
     // 컨텐츠의 첫줄을 따서 제목으로 설정
@@ -33,8 +55,16 @@ class MemoFormVC: UIViewController,UINavigationControllerDelegate {
     @IBAction func save(_ sender: Any) {
         guard self.contents.text?.isEmpty == false else{
             let alert = UIAlertController(title: nil, message: "내용을 입력해주세요", preferredStyle: .alert)
+            
+            let alertV = UIViewController()
+            let iconImage = UIImage(named: "warning-icon-60")
+            alertV.view = UIImageView(image: iconImage)
+            alertV.preferredContentSize = iconImage?.size ?? CGSize.zero
+           
+            
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-               self.present(alert,animated: true)
+        alert.setValue(alertV, forKey: "contentViewController")
+            self.present(alert,animated: true)
             return
         }
         let data = MemoData()
