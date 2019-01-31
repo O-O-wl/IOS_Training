@@ -12,6 +12,7 @@
 		0E2542E82202254C00FAA465 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E2542E62202254C00FAA465 /* Main.storyboard */; };
 		0E2542EA2202254D00FAA465 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E2542E92202254D00FAA465 /* Assets.xcassets */; };
 		0E2542ED2202254D00FAA465 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E2542EB2202254D00FAA465 /* LaunchScreen.storyboard */; };
+		0EE349F222037A4E00727B41 /* UserInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0EE349F122037A4E00727B41 /* UserInfo.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		0E2542E92202254D00FAA465 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0E2542EC2202254D00FAA465 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0E2542EE2202254D00FAA465 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0EE349F122037A4E00727B41 /* UserInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = UserInfo.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 			children = (
 				0E2542E22202254C00FAA465 /* AppDelegate.swift */,
 				0E2542E42202254C00FAA465 /* ListViewController.swift */,
+				0EE349F122037A4E00727B41 /* UserInfo.plist */,
 				0E2542E62202254C00FAA465 /* Main.storyboard */,
 				0E2542E92202254D00FAA465 /* Assets.xcassets */,
 				0E2542EB2202254D00FAA465 /* LaunchScreen.storyboard */,
@@ -125,6 +128,7 @@
 				0E2542ED2202254D00FAA465 /* LaunchScreen.storyboard in Resources */,
 				0E2542EA2202254D00FAA465 /* Assets.xcassets in Resources */,
 				0E2542E82202254C00FAA465 /* Main.storyboard in Resources */,
+				0EE349F222037A4E00727B41 /* UserInfo.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

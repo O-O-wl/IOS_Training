@@ -10,15 +10,29 @@ import UIKit
 
 
 class ListViewController: UITableViewController {
-
+    
     var accountlist = [String]()
     
-    
+    var defaultPList : NSDictionary!
     
     
     override func viewDidLoad() {
-       
         
+        // 커스텀plist 템플릿 생성
+        if let defaultPListPath = Bundle.main.path(forResource: "UserInfo", ofType: "plist"){
+            self.defaultPList = NSDictionary(contentsOfFile: defaultPListPath)
+        }
+    
+        
+        
+        // 계정추가 바버튼 추가
+        let btnAdd  = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addAccount))
+        self.navigationItem.rightBarButtonItems = [btnAdd]
+        
+        
+        
+        
+        //  피커를 입력뷰로 설정
         let picker = UIPickerView()
         
         let plist = UserDefaults.standard
@@ -29,12 +43,14 @@ class ListViewController: UITableViewController {
         //===================================================
         
         self.accountlist = (plist.array(forKey: "accountlist") as? [String] ) ?? [String]()
-//        print(accountlist[0])
+        //        print(accountlist[0])
         if let account = plist.string(forKey: "selectedAccount"){
-             self.account.text = account
+            self.account.text = account
         }
-        
+        // 유저데이터를 커스텀에서 읽어와서 채워주는 메소드
         fillUserInfo()
+        
+        
         picker.delegate = self
         
         /// - Note: 텍스트필드의 입력방식을 키보드가 아닌 PickerView로 설정
@@ -74,6 +90,11 @@ class ListViewController: UITableViewController {
         //=====================================================================
         
         
+        if((self.account.text?.isEmpty)!){
+            self.account.placeholder = "등록된 계정이 없습니다."
+            self.gender.isEnabled = false
+            self.married.isEnabled = false
+        }
         
     }
     
@@ -103,7 +124,7 @@ class ListViewController: UITableViewController {
         let plist = path.strings(byAppendingPaths: [customPlist]).first!
         
         // 커스텀파일 읽어와서 딕셔너리로 or 새 딕셔너리 생성
-        let data = NSMutableDictionary(contentsOfFile: plist) ?? NSMutableDictionary()
+        let data = NSMutableDictionary(contentsOfFile: plist) ?? NSMutableDictionary(dictionary: self.defaultPList)
         
         // 딕셔너리에 이름 추가 or 덮어쓰기
         data.setValue(gender, forKey: "gender")
@@ -126,11 +147,11 @@ class ListViewController: UITableViewController {
         
         // 완전한 커스텀파일 경로 생성
         let plist = path.strings(byAppendingPaths: [customPlist]).first!
-       print(path)
+        print(path)
         print(customPlist)
         print(plist)
         // 커스텀파일 읽어와서 딕셔너리로 or 새 딕셔너리 생성
-        let data = NSMutableDictionary(contentsOfFile: plist) ?? NSMutableDictionary()
+        let data = NSMutableDictionary(contentsOfFile: plist) ?? NSMutableDictionary(dictionary: self.defaultPList)
         
         // 딕셔너리에 이름 추가 or 덮어쓰기
         data.setValue(married, forKey: "married")
@@ -143,32 +164,37 @@ class ListViewController: UITableViewController {
     
     @objc func pickerDone(){
         fillUserInfo()
-         //print(self.account.text)
-         self.view.endEditing(true)
+        //print(self.account.text)
+        self.view.endEditing(true)
     }
     
     
     @objc func addAccount(){
+        
         let alert = UIAlertController(title: "새 계정을 입력해주세요", message: nil, preferredStyle: .alert)
         alert.addTextField(){
             $0.placeholder = "ex)abc@gmail.com"
             
         }
-       
+        
         let ok = UIAlertAction(title: "OK", style: .default){
             (_) in
-                self.accountlist.append(alert.textFields![0].text!)
-                self.account.text = alert.textFields![0].text!
-               // self.view.endEditing(true)
-                self.name.text = ""
-                self.married.isOn = false
-                self.gender.selectedSegmentIndex = 0
+            self.accountlist.append(alert.textFields![0].text!)
+            self.account.text = alert.textFields![0].text!
+            // self.view.endEditing(true)
+            self.name.text = ""
+            self.married.isOn = false
+            self.gender.selectedSegmentIndex = 0
             
-                let plist = UserDefaults.standard
-                plist.set(self.accountlist, forKey: "accountlist")
-                plist.synchronize()
+            let plist = UserDefaults.standard
+            plist.set(self.accountlist, forKey: "accountlist")
+            plist.synchronize()
+            self.gender.isEnabled = true
+            self.married.isEnabled = true
             
-        
+            
+            
+            
         }
         alert.addAction(ok)
         self.present(alert,animated: false)
@@ -185,8 +211,8 @@ class ListViewController: UITableViewController {
         // 완전한 커스텀파일 경로 생성
         let customplist = path.strings(byAppendingPaths: ["\(self.account.text!).plist"]).first!
         
-        // 커스텀파일 읽어와서 딕셔너리로 or 새 딕셔너리 생성
-        let userInfo = NSMutableDictionary(contentsOfFile: customplist) ?? NSMutableDictionary()
+        // 커스텀파일 읽어와서 딕셔너리로 or 새 딕셔너리 생성 -- 템플릿에 맞게 생성
+        let userInfo = NSMutableDictionary(contentsOfFile: customplist) ?? NSMutableDictionary(dictionary: defaultPList)
         
         
         
@@ -202,6 +228,8 @@ class ListViewController: UITableViewController {
     
     
     @IBAction func editName(_ sender: Any) {
+        
+        
         let alert = UIAlertController(title: "이름을 입력해주세요", message: nil, preferredStyle: .alert)
         alert.addTextField(){
             $0.placeholder = "ex)부엉이"
@@ -224,7 +252,7 @@ class ListViewController: UITableViewController {
             let plist = path.strings(byAppendingPaths: [customPlist]).first!
             
             // 커스텀파일 읽어와서 딕셔너리로 or 새 딕셔너리 생성
-            let data = NSMutableDictionary(contentsOfFile: plist) ?? NSMutableDictionary()
+            let data = NSMutableDictionary(contentsOfFile: plist) ?? NSMutableDictionary(dictionary: self.defaultPList)
             
             // 딕셔너리에 이름 추가 or 덮어쓰기
             data.setValue(value, forKey: "name")
@@ -234,8 +262,8 @@ class ListViewController: UITableViewController {
             
             
             //  let plist = UserDefaults.standard
-          //  plist.set(alert.textFields![0].text,forKey:"name")
-          //  plist.synchronize()
+            //  plist.set(alert.textFields![0].text,forKey:"name")
+            //  plist.synchronize()
             self.view.endEditing(true)
             
             
@@ -248,7 +276,7 @@ class ListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if indexPath.row == 1{
+        if indexPath.row == 1 && !(self.account.text?.isEmpty)!{
             editName(tableView)
             //print("테이블아이템 선택2")
             
@@ -262,7 +290,7 @@ class ListViewController: UITableViewController {
 // MARK: - UIPickerViewDelegate 구현 : 피커 뷰에서 발생하는 액션 처리
 extension ListViewController : UIPickerViewDelegate{
     
-  
+    
     /// - Note: 컴포넌트가 가질 목록의 길이 -> 컴포넌트 그룹이 가질 목록의 갯수 - ex) 월 - 12
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return self.accountlist.count
@@ -276,9 +304,9 @@ extension ListViewController : UIPickerViewDelegate{
     
     /// - Note: 컴포넌트 클릭시 실행
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-      //  print("=============================================")
-      //  print(self.view.inputView)
-      //  print("=============================================")
+        //  print("=============================================")
+        //  print(self.view.inputView)
+        //  print("=============================================")
         let account = self.accountlist[row]
         
         let plist = UserDefaults.standard
@@ -287,11 +315,11 @@ extension ListViewController : UIPickerViewDelegate{
         
         plist.synchronize()
         self.account.text = account
-      //  self.account.sizeToFit()
+        //  self.account.sizeToFit()
         
-      
+        
         // 입력뷰 - 피커뷰 종료 -- 텍스트뷰의 편집이 끝났음을 알려주어 입력뷰 종료
-       //
+        //
         
     }
     
