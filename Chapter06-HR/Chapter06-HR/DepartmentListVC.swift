@@ -9,9 +9,15 @@
 import UIKit
 
 class DepartmentListVC: UITableViewController {
+    
+    typealias dataSource = (departCd:Int,departTitle:String,departAddr:String)
+    var departList : [dataSource]! // 데이터소스 -- 테이블뷰의 데이터소스
+    
+    let departDAO = DepartmentDAO() // SQLite 처리 담당 객체
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        initUI()
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -19,7 +25,21 @@ class DepartmentListVC: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    func initUI(){
+        
+        // 총인원 나타내는 네비바
+        let naviTitle = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 60))
+        naviTitle.numberOfLines = 2
+        naviTitle.textAlignment = .center
+        naviTitle.font = UIFont.systemFont(ofSize: 14)
+        naviTitle.text = "부서목록\n"+"총\(self.departList.count)개"
+        self.navigationItem.leftBarButtonItem = self.editButtonItem // 편집버튼 추가
+        // 셀을 스와이프 했을때 편집머모드 설정
+        self.tableView.allowsMultipleSelectionDuringEditing = true
+    }
 
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {

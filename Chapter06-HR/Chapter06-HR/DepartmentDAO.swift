@@ -46,7 +46,14 @@ class DepartmentDAO{
         self.fmdb.close()
     }
     
+}
+// - MARK: - SELECT 처리
+extension DepartmentDAO{
     
+    /** ================================================
+     - Note:
+     FindAll
+     //================================================*/
     func find() -> [DepartmentRecord]{
         // 사실상 테이블과 같은 역할
         var departmentList = [DepartmentRecord]()
@@ -70,10 +77,75 @@ class DepartmentDAO{
         }catch let error as NSError{
             print("failed:\(error.localizedDescription)")
         }
-            return departmentList
+        return departmentList
+    }
+    
+    /** ================================================
+     - Note:
+     FindById
+     //================================================*/
+    func get (depart_cd : Int) -> DepartmentRecord? {
+        let sql = "SELECT * FROM department WHERE depart_cd = ?"
+        let rs = self.fmdb.executeQuery(sql, withArgumentsIn: [depart_cd])
+        
+        /// _rs  에 rs 를 넣고 실행
+        if let _rs = rs{
+            _rs.next()
+            let departCd = _rs.int(forColumn: "depart_cd")
+            let departTitle = _rs.string(forColumn: "depart_title")
+            let departAddr = _rs.string(forColumn: "depart_addr")
+            
+            return (Int(departCd),departTitle!,departAddr!)
+            
+        }else{
+            return nil
         }
     }
-
+}
+// - MARK: - INSERT 처리
+extension DepartmentDAO{
     
+    func create(title:String , addr : String) ->Bool{
+        
+        
+        /// - Note: 입력값 체크
+        guard title != nil && title.isEmpty == false else{
+            return false
+        }
+        guard addr != nil && addr.isEmpty == false else{
+            return false
+            
+        }
+        
+        
+        do{
+            let sql = """
+INSERT INTO department (depart_title,depart_addr) VALUES (?,?)
+"""
+            try self.fmdb.executeUpdate(sql, values: [title,addr])
+            return true
+        }catch let error as NSError {
+            print("에러 : \(error.localizedDescription)")
+            return false
+        }
+    }
+}
+// - MARK: - DELETE 처리
+extension DepartmentDAO{
+    func remove(depart_cd : Int) -> Bool{
+        let sql = """
+DELETE FROM department WHERE depart_cd = ?
+"""
+        do{
+            try self.fmdb.executeUpdate(sql, values: [depart_cd])
+                return true
+            }
+        catch let error as NSError {
+            print("에러 : \(error) ")
+            return false
+        }
+        
+    }
     
+}
 

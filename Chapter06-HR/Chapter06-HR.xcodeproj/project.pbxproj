@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E26ADBE2208A0FB00543CF3 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E26ADB52208A0FA00543CF3 /* FMDatabaseQueue.m */; };
+		0E26ADBF2208A0FB00543CF3 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E26ADB62208A0FB00543CF3 /* FMDatabasePool.m */; };
+		0E26ADC02208A0FB00543CF3 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E26ADBA2208A0FB00543CF3 /* FMResultSet.m */; };
+		0E26ADC12208A0FB00543CF3 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E26ADBC2208A0FB00543CF3 /* FMDatabaseAdditions.m */; };
+		0E26ADC22208A0FB00543CF3 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E26ADBD2208A0FB00543CF3 /* FMDatabase.m */; };
+		0E26ADC42208BE2A00543CF3 /* EmployeeDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E26ADC32208BE2A00543CF3 /* EmployeeDAO.swift */; };
 		0E8AC5142204021400321DDA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AC5132204021400321DDA /* AppDelegate.swift */; };
 		0E8AC5192204021400321DDA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E8AC5172204021400321DDA /* Main.storyboard */; };
 		0E8AC51B2204021500321DDA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E8AC51A2204021500321DDA /* Assets.xcassets */; };
@@ -19,6 +25,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E26ADB32208A0FA00543CF3 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		0E26ADB42208A0FA00543CF3 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		0E26ADB52208A0FA00543CF3 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		0E26ADB62208A0FB00543CF3 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		0E26ADB72208A0FB00543CF3 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
+		0E26ADB82208A0FB00543CF3 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		0E26ADB92208A0FB00543CF3 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		0E26ADBA2208A0FB00543CF3 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		0E26ADBB2208A0FB00543CF3 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		0E26ADBC2208A0FB00543CF3 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		0E26ADBD2208A0FB00543CF3 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		0E26ADC32208BE2A00543CF3 /* EmployeeDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeDAO.swift; sourceTree = "<group>"; };
 		0E8AC5102204021400321DDA /* Chapter06-HR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Chapter06-HR.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E8AC5132204021400321DDA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0E8AC5182204021400321DDA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -27,17 +45,6 @@
 		0E8AC51F2204021500321DDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0E8AC5262204027D00321DDA /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		0E8AC528220402B200321DDA /* Chapter06-HR-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Chapter06-HR-Bridging-Header.h"; sourceTree = "<group>"; };
-		0E8AC53A220402C900321DDA /* FMDatabasePool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
-		0E8AC53B220402C900321DDA /* FMResultSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
-		0E8AC53C220402C900321DDA /* FMDB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
-		0E8AC53D220402C900321DDA /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
-		0E8AC53E220402C900321DDA /* FMDatabase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
-		0E8AC53F220402C900321DDA /* FMDatabase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
-		0E8AC540220402C900321DDA /* FMResultSet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
-		0E8AC541220402C900321DDA /* FMDatabaseQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
-		0E8AC542220402C900321DDA /* FMDatabaseQueue.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
-		0E8AC543220402C900321DDA /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
-		0E8AC544220402CA00321DDA /* FMDatabasePool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
 		0E8AC5452204050200321DDA /* DepartmentListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepartmentListVC.swift; sourceTree = "<group>"; };
 		0E8AC5472204052600321DDA /* EmployeeListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeListVC.swift; sourceTree = "<group>"; };
 		0E8AC549220406D000321DDA /* hr.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = hr.sqlite; sourceTree = "<group>"; };
@@ -56,9 +63,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E26ADB22208A0EA00543CF3 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
 		0E8AC5072204021400321DDA = {
 			isa = PBXGroup;
 			children = (
+				0E26ADB22208A0EA00543CF3 /* New Group */,
 				0E8AC5122204021400321DDA /* Chapter06-HR */,
 				0E8AC5112204021400321DDA /* Products */,
 				0E8AC5252204027D00321DDA /* Frameworks */,
@@ -76,8 +91,18 @@
 		0E8AC5122204021400321DDA /* Chapter06-HR */ = {
 			isa = PBXGroup;
 			children = (
+				0E26ADB42208A0FA00543CF3 /* FMDatabase.h */,
+				0E26ADBD2208A0FB00543CF3 /* FMDatabase.m */,
+				0E26ADB82208A0FB00543CF3 /* FMDatabaseAdditions.h */,
+				0E26ADBC2208A0FB00543CF3 /* FMDatabaseAdditions.m */,
+				0E26ADBB2208A0FB00543CF3 /* FMDatabasePool.h */,
+				0E26ADB62208A0FB00543CF3 /* FMDatabasePool.m */,
+				0E26ADB32208A0FA00543CF3 /* FMDatabaseQueue.h */,
+				0E26ADB52208A0FA00543CF3 /* FMDatabaseQueue.m */,
+				0E26ADB72208A0FB00543CF3 /* FMDB.h */,
+				0E26ADB92208A0FB00543CF3 /* FMResultSet.h */,
+				0E26ADBA2208A0FB00543CF3 /* FMResultSet.m */,
 				0E8AC549220406D000321DDA /* hr.sqlite */,
-				0E8AC539220402BB00321DDA /* FMDB */,
 				0E8AC5452204050200321DDA /* DepartmentListVC.swift */,
 				0E8AC5132204021400321DDA /* AppDelegate.swift */,
 				0E8AC5172204021400321DDA /* Main.storyboard */,
@@ -87,6 +112,7 @@
 				0E8AC528220402B200321DDA /* Chapter06-HR-Bridging-Header.h */,
 				0E8AC5472204052600321DDA /* EmployeeListVC.swift */,
 				0E8AC54B220407C000321DDA /* DepartmentDAO.swift */,
+				0E26ADC32208BE2A00543CF3 /* EmployeeDAO.swift */,
 			);
 			path = "Chapter06-HR";
 			sourceTree = "<group>";
@@ -97,24 +123,6 @@
 				0E8AC5262204027D00321DDA /* libsqlite3.tbd */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		0E8AC539220402BB00321DDA /* FMDB */ = {
-			isa = PBXGroup;
-			children = (
-				0E8AC53F220402C900321DDA /* FMDatabase.h */,
-				0E8AC53E220402C900321DDA /* FMDatabase.m */,
-				0E8AC543220402C900321DDA /* FMDatabaseAdditions.h */,
-				0E8AC53D220402C900321DDA /* FMDatabaseAdditions.m */,
-				0E8AC544220402CA00321DDA /* FMDatabasePool.h */,
-				0E8AC53A220402C900321DDA /* FMDatabasePool.m */,
-				0E8AC541220402C900321DDA /* FMDatabaseQueue.h */,
-				0E8AC542220402C900321DDA /* FMDatabaseQueue.m */,
-				0E8AC53C220402C900321DDA /* FMDB.h */,
-				0E8AC53B220402C900321DDA /* FMResultSet.h */,
-				0E8AC540220402C900321DDA /* FMResultSet.m */,
-			);
-			path = FMDB;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -190,10 +198,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E26ADBE2208A0FB00543CF3 /* FMDatabaseQueue.m in Sources */,
+				0E26ADBF2208A0FB00543CF3 /* FMDatabasePool.m in Sources */,
+				0E26ADC42208BE2A00543CF3 /* EmployeeDAO.swift in Sources */,
+				0E26ADC02208A0FB00543CF3 /* FMResultSet.m in Sources */,
+				0E26ADC22208A0FB00543CF3 /* FMDatabase.m in Sources */,
 				0E8AC5482204052600321DDA /* EmployeeListVC.swift in Sources */,
 				0E8AC5462204050200321DDA /* DepartmentListVC.swift in Sources */,
 				0E8AC54C220407C000321DDA /* DepartmentDAO.swift in Sources */,
 				0E8AC5142204021400321DDA /* AppDelegate.swift in Sources */,
+				0E26ADC12208A0FB00543CF3 /* FMDatabaseAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
