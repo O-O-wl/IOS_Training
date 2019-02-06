@@ -9,34 +9,121 @@
 import UIKit
 
 class EmployeeListVC: UITableViewController {
+    
+    
+    var employeeList : [EmployeeVO]!
+    
+    var empDAO = EmployeeDAO()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.employeeList = self.empDAO.find()
+    print(self.employeeList.count)
+        self.initUI()
         
     }
 
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func initUI(){
         
-        return 0
+        let naviTitle = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 60))
+        
+        naviTitle.numberOfLines = 2
+        naviTitle.font = UIFont.systemFont(ofSize: 14)
+        naviTitle.textAlignment = .center
+        naviTitle.text = "사원 목록\n"+"총\(self.employeeList.count)명"
+        
+        self.navigationItem.titleView = naviTitle
+        
     }
+
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
        
-        return 0
+        return self.employeeList.count
     }
 
-    /*
+    @IBAction func add(_ sender: Any) {
+        let alert = UIAlertController(title: "사원등록", message: "등록할 사원 정보를 입력해 주세요", preferredStyle: .alert)
+        alert.addTextField(){
+            $0.placeholder = "사원이름"
+        }
+        let pickerVC = DepartPickerVC()
+        // 알림창에 피커뷰 달기
+        alert.setValue(pickerVC, forKey: "contentViewController")
+        
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "확인", style: .default){
+            (_) in
+            var employee = EmployeeVO()
+            
+            employee.empName = (alert.textFields?[0].text!)!
+            
+            employee.departCd = pickerVC.selectedDepartCd
+            
+            print(employee.departCd)
+            
+            let df = DateFormatter()
+            
+            df.dateFormat = "yyyy-MM-dd"
+            
+            employee.joinDate = df.string(from: Date())
+            
+            employee.stateCd = EmpStateType.ING
+            
+            if self.empDAO.create(param: employee){
+                self.employeeList = self.empDAO.find()
+                self.tableView.reloadData()
+                print("sql OK")
+            
+            }
+            
+            if let naviTitle = self.navigationItem.titleView as? UILabel{
+                naviTitle.text = "사원 목록\n"+"총\(self.employeeList.count)명"
+            }
+            
+           
+        }
+        
+    )
+        self.present(alert,animated: false)
+    }
+    
+    
+    @IBAction func editing(_ sender: Any) {
+        if(self.isEditing == false){
+            // 수정상태 아니면 수정상태로
+            self.setEditing(true, animated: true)
+            // 버튼 text 는 Done으로
+            (sender as? UIBarButtonItem)?.title = "Done"
+        }
+            else{
+                self.setEditing(false, animated: true)
+                (sender as? UIBarButtonItem)?.title = "Edit"
+            }
+            
+        
+    }
+    
+    
+    
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "EMP_CELL", for: indexPath)
+        
+        let rowData = self.employeeList[indexPath.row]
 
+        cell.textLabel?.text = "\(rowData.empName)"+"(\(rowData.stateCd.desc()))"
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 14)
+        cell.detailTextLabel?.text = rowData.departTitle
+         cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 12)
+        
         // Configure the cell...
 
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -46,17 +133,16 @@ class EmployeeListVC: UITableViewController {
     }
     */
 
-    /*
+    
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        let empCd = self.employeeList[indexPath.row].empCd
+        if(self.empDAO.remove(empCd: empCd)){
+            self.employeeList.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .fade)}
+        
     }
-    */
 
     /*
     // Override to support rearranging the table view.

@@ -9,16 +9,16 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--부서목록-->
+        <!--Department ListVC-->
         <scene sceneID="lQC-p3-gDb">
             <objects>
-                <tableViewController id="svO-cn-ts6" sceneMemberID="viewController">
+                <tableViewController id="svO-cn-ts6" customClass="DepartmentListVC" customModule="Chapter06_HR" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="O29-nI-ako">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="iB9-l0-Cjq">
-                            <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                            <rect key="frame" x="0.0" y="72" width="375" height="1000"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.89011900909999997" green="0.89011900909999997" blue="0.89011900909999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
@@ -53,29 +53,54 @@
                             <outlet property="delegate" destination="svO-cn-ts6" id="sDB-tV-eGe"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="부서목록" id="CNk-DX-4Vg">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="I8O-zI-G6p"/>
+                    <navigationItem key="navigationItem" id="CNk-DX-4Vg">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="I8O-zI-G6p">
+                            <connections>
+                                <action selector="add:" destination="svO-cn-ts6" id="pXq-Hr-Bmf"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="awR-aV-m8D" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="820" y="-210"/>
         </scene>
-        <!--사원목록-->
+        <!--Employee ListVC-->
         <scene sceneID="hM9-PC-0W6">
             <objects>
-                <tableViewController id="i6H-o0-5m5" sceneMemberID="viewController">
+                <tableViewController id="i6H-o0-5m5" customClass="EmployeeListVC" customModule="Chapter06_HR" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Fnv-bb-GeX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="vOA-U2-rGS">
+                            <rect key="frame" x="0.0" y="72" width="375" height="1000"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.87297603629999998" green="0.87297603629999998" blue="0.87297603629999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="beZ-ti-NZR">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="EMP_CELL" textLabel="sXg-sG-ncI" detailTextLabel="cWH-cv-6KU" style="IBUITableViewCellStyleSubtitle" id="beZ-ti-NZR">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="beZ-ti-NZR" id="XP1-OF-7cG">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="341" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sXg-sG-ncI">
+                                            <rect key="frame" x="16" y="5" width="33.5" height="20.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cWH-cv-6KU">
+                                            <rect key="frame" x="16" y="25.5" width="44" height="14.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -84,7 +109,18 @@
                             <outlet property="delegate" destination="i6H-o0-5m5" id="LLZ-Xn-ASt"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="사원목록" id="wtn-RU-Isp"/>
+                    <navigationItem key="navigationItem" id="wtn-RU-Isp">
+                        <barButtonItem key="leftBarButtonItem" title="Edit" id="A4i-VL-EEa">
+                            <connections>
+                                <action selector="editing:" destination="i6H-o0-5m5" id="DhW-lz-CP7"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="VXq-N8-gz5">
+                            <connections>
+                                <action selector="add:" destination="i6H-o0-5m5" id="Sm6-BF-hoT"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O4b-dr-WQh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -23,7 +23,7 @@ class DepartmentDAO{
         
         // 경로 URL에 hr.sqlite 경로 합성 -- 샌드박스 내의   hr.sqlite
         var dbPath = docPath!.appendingPathComponent("hr.sqlite").path
-        
+        print(dbPath)
         
         // 경로가 존재하지않으면 DB탬플릿 복사 -- 번들경로의 hr.sqlite
         if fileMgr.fileExists(atPath: dbPath) == false {

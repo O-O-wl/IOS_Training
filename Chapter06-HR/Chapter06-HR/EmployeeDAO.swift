@@ -11,20 +11,7 @@ import Foundation
 class EmployeeDAO{
     
     // 열거형 재직상태 코드타입
-    enum EmpStateType : Int {
-        case ING = 0 , STOP, OUT // 재직중(0),휴직(1),퇴사(2)
-        
-        func desc() -> String{
-            switch self {
-            case .ING:
-                return "재직중"
-            case .STOP:
-                return "휴직중"
-            case .OUT:
-                return "퇴사"
-            }
-        }
-    }
+
     
     // 생성자
     init() {
@@ -42,7 +29,7 @@ class EmployeeDAO{
         
         let docPath = fileMgr.urls(for: .documentDirectory, in: .userDomainMask).first
         
-        let dbPath = docPath!.appendingPathExtension("hr.sqlite").path
+        let dbPath = docPath!.appendingPathComponent("hr.sqlite").path
         
         if fileMgr.fileExists(atPath: dbPath) == false {
             let dbSource = Bundle.main.path(forResource: "hr", ofType: "sqlite")
@@ -65,23 +52,16 @@ class EmployeeDAO{
                 2. VO객체 내부에 클래스 기반 변수를 사용할떄
                 3. 상속구조를 이용할 때
  ========================================================*/
-struct EmployeeVO {
-    var empCd = 0;                  // 직원 코드
-    var empName=""                  // 직원 이름
-    var joinDate = ""               // 입사일
-    var stateCd = EmpStateType.ING  // 재직상태
-    var departCd = 0                // 부서코드
-    var departTitle = ""            // 부서 이름
-    
-}
+
 }
 // - MARK: - SELECT 구문
 extension EmployeeDAO{
     func find() ->[EmployeeVO]{
+        print("SELECT")
         var empList = [EmployeeVO]()
         do{
         let sql = """
-        SELECT emp_cd,emp_name,join_date,state_cd,d.depart_title FROM employee e  JOIN department d ON e.depart_cd = d.depart_cd ORDER BY e.depart_cd ASC
+        SELECT emp_cd,emp_name,join_date,state_cd,department.depart_title FROM employee JOIN department  ON department.depart_cd = employee.depart_cd ORDER BY employee.depart_cd ASC
         """
         let rs = try self.fmdb.executeQuery(sql, values: nil)
         while  rs.next(){
@@ -92,6 +72,7 @@ extension EmployeeDAO{
             employee.joinDate = rs.string(forColumn: "join_date")!
             employee.departTitle = rs.string(forColumn: "depart_title")!
             
+            print(employee.empName)
             //DB에서 읽어와서 Int32 ->Int
             let cd = Int(rs.int(forColumn: "state_cd"))
             // 열거형 변환
@@ -138,11 +119,7 @@ SELECT emp_cd,emp_name,join_date,state_cd,d.depart_title FROM employee e  JOIN d
 // - MARK: - INSERT 구문
 extension EmployeeDAO{
     func create(param:EmployeeVO) -> Bool{
-        let sql = """
-INSERT INTO employee
-(emp_name,join_date,state_cd,depart_cd)
-VALUES (?,?,?,?)
-"""
+        let sql = "INSERT INTO employee (emp_name,join_date,state_cd,depart_cd)  VALUES (?,?,?,?)"
         do{
             var params = [Any]()
             params.append(param.empName)
@@ -150,9 +127,10 @@ VALUES (?,?,?,?)
             params.append(param.stateCd.rawValue)  //DB는 열거형 객체 저장 불가 -- 연관값으로 변경
             params.append(param.departCd)
             
-            try self.fmdb.executeUpdate(sql, values: params)
+            try self.fmdb.executeUpdate(sql, values: [param.empName,param.joinDate,param.stateCd.rawValue,param.departCd])
             
             return true
+            
         }catch let error as NSError{
             print("에러 : \(error.localizedDescription)")
             return false
@@ -175,4 +153,27 @@ DELETE FROM employee WHERE emp_cd = ?
         }
 
     }
+}
+public enum EmpStateType : Int {
+    case ING = 0 , STOP, OUT // 재직중(0),휴직(1),퇴사(2)
+    
+    func desc() -> String{
+        switch self {
+        case .ING:
+            return "재직중"
+        case .STOP:
+            return "휴직중"
+        case .OUT:
+            return "퇴사"
+        }
+    }
+}
+public struct EmployeeVO {
+    var empCd = 0;                  // 직원 코드
+    var empName=""                  // 직원 이름
+    var joinDate = ""               // 입사일
+    var stateCd = EmpStateType.ING  // 재직상태
+    var departCd = 0                // 부서코드
+    var departTitle = ""            // 부서 이름
+    
 }
