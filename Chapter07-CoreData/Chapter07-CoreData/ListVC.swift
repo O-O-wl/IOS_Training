@@ -64,6 +64,51 @@ class ListVC: UITableViewController {
         return cell
     }
     
+    
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        let object = self.list[indexPath.row]
+        
+        if self.delete(object: object) == true {
+            self.list.remove(at: indexPath.row)
+            
+            ///  둘다 가능하나 리로드하는 것과 / 특정행만 지우면 애니메이션을 하는 차이가있다
+            //self.tableView.reloadData()
+            self.tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let alert = UIAlertController(title: "게시글 수정", message: nil, preferredStyle: .alert)
+        
+        let object = self.list[indexPath.row]
+        
+        let title = object.value(forKey: "title") as! String
+        let contents = object.value(forKey: "contents") as! String
+        
+        alert.addTextField(){
+            $0.text = title
+        }
+        alert.addTextField(){
+            $0.text = contents
+        }
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Save", style: .default){
+            (_) in
+                let title = alert.textFields?.first?.text
+            let contents = alert.textFields?.last!.text
+            if self.edit(object: object, title: title!, contents: contents!) == true{
+                self.tableView.reloadData()            }
+            })
+        
+        self.present(alert , animated: false)
+        
+    }
 
     /*
     // Override to support conditional editing of the table view.
@@ -232,20 +277,35 @@ extension ListVC{
         
         
     }
-    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return .delete
-    }
-  
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    
+    
+
+    
+    
+    
+    /** =================================================
+     
+                            - Note:
+                    컨텍스트에서 데이터 수정 메소드
+                이후 save 메소드로 영구저장소에 반영
+     ====================================================*/
+    func edit(object:NSManagedObject , title:String , contents:String) ->Bool{
         
-        let object = self.list[indexPath.row]
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
-        if self.delete(object: object) == true {
-            self.list.remove(at: indexPath.row)
-            
-             ///  둘다 가능하나 리로드하는 것과 / 특정행만 지우면 애니메이션을 하는 차이가있다 
-            //self.tableView.reloadData()
-            self.tableView.deleteRows(at: [indexPath], with: .fade)
+        let context = appDelegate.persistentContainer.viewContext
+        
+        object.setValue(title, forKey: "title")
+        object.setValue(contents, forKey: "contents")
+        object.setValue(Date(), forKey: "regdate")
+        
+        do{
+            try context.save()
+            return true
+        }catch{
+            context.rollback()
+            return false
         }
+        
     }
 }
