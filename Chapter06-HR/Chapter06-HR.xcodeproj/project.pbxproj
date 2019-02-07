@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0E1250942209C2D30051D35C /* hr.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 0E1250932209C2D30051D35C /* hr.sqlite */; };
 		0E125096220B29AA0051D35C /* DepartmentInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E125095220B29AA0051D35C /* DepartmentInfoVC.swift */; };
+		0E125098220C157D0051D35C /* 부엉이2.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E125097220C157D0051D35C /* 부엉이2.png */; };
 		0E26ADBE2208A0FB00543CF3 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E26ADB52208A0FA00543CF3 /* FMDatabaseQueue.m */; };
 		0E26ADBF2208A0FB00543CF3 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E26ADB62208A0FB00543CF3 /* FMDatabasePool.m */; };
 		0E26ADC02208A0FB00543CF3 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E26ADBA2208A0FB00543CF3 /* FMResultSet.m */; };
@@ -29,6 +30,7 @@
 /* Begin PBXFileReference section */
 		0E1250932209C2D30051D35C /* hr.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; name = hr.sqlite; path = "../../../../../Downloads/3학년1학기/데이터베이스/SQLite/hr.sqlite"; sourceTree = "<group>"; };
 		0E125095220B29AA0051D35C /* DepartmentInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepartmentInfoVC.swift; sourceTree = "<group>"; };
+		0E125097220C157D0051D35C /* 부엉이2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "부엉이2.png"; sourceTree = "<group>"; };
 		0E26ADB32208A0FA00543CF3 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
 		0E26ADB42208A0FA00543CF3 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		0E26ADB52208A0FA00543CF3 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				0E8AC5132204021400321DDA /* AppDelegate.swift */,
 				0E8AC5172204021400321DDA /* Main.storyboard */,
 				0E125095220B29AA0051D35C /* DepartmentInfoVC.swift */,
+				0E125097220C157D0051D35C /* 부엉이2.png */,
 				0E8AC51A2204021500321DDA /* Assets.xcassets */,
 				0E8AC51C2204021500321DDA /* LaunchScreen.storyboard */,
 				0E8AC51F2204021500321DDA /* Info.plist */,
@@ -192,6 +195,7 @@
 			files = (
 				0E8AC51E2204021500321DDA /* LaunchScreen.storyboard in Resources */,
 				0E8AC51B2204021500321DDA /* Assets.xcassets in Resources */,
+				0E125098220C157D0051D35C /* 부엉이2.png in Resources */,
 				0E8AC5192204021400321DDA /* Main.storyboard in Resources */,
 				0E1250942209C2D30051D35C /* hr.sqlite in Resources */,
 			);
