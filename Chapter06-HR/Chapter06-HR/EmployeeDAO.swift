@@ -56,6 +56,7 @@ class EmployeeDAO{
 }
 // - MARK: - SELECT 구문
 extension EmployeeDAO{
+    /**
     func find() ->[EmployeeVO]{
         print("SELECT")
         var empList = [EmployeeVO]()
@@ -87,6 +88,7 @@ extension EmployeeDAO{
         return empList
         
     }
+ */
   //  func findByDepartment(departCd:Int) -> [EmployeeVO]{
         
   //  }
@@ -113,6 +115,30 @@ SELECT emp_cd,emp_name,join_date,state_cd,d.depart_title FROM employee e  JOIN d
         }
         
       
+    }
+    
+    
+    func find(departCd:Int = 0 ) -> [EmployeeVO]{
+        var employeeList = [EmployeeVO]()
+        do{
+            let condition = departCd == 0 ? "" : "WHERE employee.depart_cd = \(departCd)"
+            let sql = "SELECT emp_name,join_date,emp_cd,state_cd,depart_title FROM department JOIN employee ON department.depart_cd = employee.depart_cd \(condition) ORDER BY department.depart_cd ASC"
+            let rs =  try self.fmdb.executeQuery(sql, values: nil)
+            
+            while(rs.next()){
+                var employee = EmployeeVO()
+                employee.empCd = Int(rs.int(forColumn: "emp_cd"))
+                employee.empName = rs.string(forColumn: "emp_name")!
+                employee.joinDate = rs.string(forColumn: "join_date")!
+                employee.departTitle = rs.string(forColumn: "depart_title")!
+                employee.stateCd = EmpStateType(rawValue: Int(rs.int(forColumn: "state_cd")))!
+                employeeList.append(employee)
+            }
+            
+        }catch let error as NSError {
+            print("에러 : \(error.localizedDescription)")
+        }
+        return employeeList
     }
     
 }
@@ -152,6 +178,27 @@ DELETE FROM employee WHERE emp_cd = ?
             return false
         }
 
+    }
+}
+// - MARK: - UPDATE 구문
+extension EmployeeDAO{
+    func editState(empCd:Int , stateCd: EmpStateType) ->Bool {
+        do {
+            let sql = "UPDATE employee SET  state_cd = ? WHERE emp_cd = ?"
+            var params = [Any]()
+            params.append(stateCd.rawValue)
+            params.append(empCd)
+            
+            try self.fmdb.executeUpdate(sql, values: params)
+            
+            return true
+        }
+        catch let error as NSError{
+            
+            print("에러 : \(error.localizedDescription)")
+            return false
+        }
+        
     }
 }
 public enum EmpStateType : Int {

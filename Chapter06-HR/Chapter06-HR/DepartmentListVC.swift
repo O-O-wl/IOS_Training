@@ -152,6 +152,14 @@ class DepartmentListVC: UITableViewController {
     }
     */
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let departInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "DEPART_INFO") as! DepartmentInfoVC
+        
+        departInfoVC.departCd = self.departList[indexPath.row].departCd
+        
+        self.navigationController?.pushViewController(departInfoVC, animated: true)
+        
+    }
     /*
     // MARK: - Navigation
 

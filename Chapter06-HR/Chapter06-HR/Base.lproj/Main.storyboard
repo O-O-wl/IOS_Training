@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Department ListVC-->
+        <!--부서목록-->
         <scene sceneID="lQC-p3-gDb">
             <objects>
                 <tableViewController id="svO-cn-ts6" customClass="DepartmentListVC" customModule="Chapter06_HR" customModuleProvider="target" sceneMemberID="viewController">
@@ -53,19 +53,91 @@
                             <outlet property="delegate" destination="svO-cn-ts6" id="sDB-tV-eGe"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="CNk-DX-4Vg">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="I8O-zI-G6p">
+                    <navigationItem key="navigationItem" title="부서목록" id="UXL-DS-eDS">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="P47-we-Pwn">
                             <connections>
-                                <action selector="add:" destination="svO-cn-ts6" id="pXq-Hr-Bmf"/>
+                                <action selector="add:" destination="svO-cn-ts6" id="dt6-Ob-yA3"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="hh5-gF-Fhf" kind="show" id="LpB-So-kYa"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="awR-aV-m8D" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="820" y="-210"/>
         </scene>
-        <!--Employee ListVC-->
+        <!--부서 상세 정보-->
+        <scene sceneID="h3e-yk-Hif">
+            <objects>
+                <tableViewController storyboardIdentifier="DEPART_INFO" id="hh5-gF-Fhf" customClass="DepartmentInfoVC" customModule="Chapter06_HR" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="KpE-nO-XDE">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="dSo-pa-aES">
+                            <rect key="frame" x="0.0" y="116" width="375" height="1000"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.87056751939999999" green="0.87056751939999999" blue="0.87056751939999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </view>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DEPART_CELL" textLabel="U6o-iH-Wbk" detailTextLabel="cFz-gC-wZ6" style="IBUITableViewCellStyleValue1" id="DRS-OJ-yTN">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DRS-OJ-yTN" id="BUT-Ij-FB4">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="U6o-iH-Wbk">
+                                            <rect key="frame" x="16" y="12" width="33.5" height="20.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cFz-gC-wZ6">
+                                            <rect key="frame" x="315" y="12" width="44" height="20.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EMP_CELL" textLabel="wOY-FE-wzw" style="IBUITableViewCellStyleDefault" id="bwl-XY-Qpc">
+                                <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bwl-XY-Qpc" id="GYG-Dh-TxS">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wOY-FE-wzw">
+                                            <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="hh5-gF-Fhf" id="k6F-JP-q8b"/>
+                            <outlet property="delegate" destination="hh5-gF-Fhf" id="c0U-oc-33v"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="부서 상세 정보" id="vhL-Ya-9aF">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="lU1-TS-jcI"/>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tWK-FH-0Yd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1636" y="-210"/>
+        </scene>
+        <!--사원 목록-->
         <scene sceneID="hM9-PC-0W6">
             <objects>
                 <tableViewController id="i6H-o0-5m5" customClass="EmployeeListVC" customModule="Chapter06_HR" customModuleProvider="target" sceneMemberID="viewController">
@@ -109,15 +181,15 @@
                             <outlet property="delegate" destination="i6H-o0-5m5" id="LLZ-Xn-ASt"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="wtn-RU-Isp">
-                        <barButtonItem key="leftBarButtonItem" title="Edit" id="A4i-VL-EEa">
+                    <navigationItem key="navigationItem" title="사원 목록" id="AQD-nF-fsN">
+                        <barButtonItem key="leftBarButtonItem" title="Edit" id="GU5-m4-hZV">
                             <connections>
-                                <action selector="editing:" destination="i6H-o0-5m5" id="DhW-lz-CP7"/>
+                                <action selector="editing:" destination="i6H-o0-5m5" id="83O-xI-HB1"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="VXq-N8-gz5">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Zak-h7-Ne0">
                             <connections>
-                                <action selector="add:" destination="i6H-o0-5m5" id="Sm6-BF-hoT"/>
+                                <action selector="add:" destination="i6H-o0-5m5" id="U93-29-LR3"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

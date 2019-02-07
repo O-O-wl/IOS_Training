@@ -23,6 +23,10 @@ class EmployeeListVC: UITableViewController {
     print(self.employeeList.count)
         self.initUI()
         
+        // 기본으로 테이블뷰컨트롤러에 정의된 컨트롤
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl?.attributedTitle = NSAttributedString(string: "당겨서 새로고침")
+        self.refreshControl?.addTarget(self, action: #selector(pullToRefresh(_:)), for: .valueChanged)
     }
 
     func initUI(){
@@ -141,6 +145,20 @@ class EmployeeListVC: UITableViewController {
         if(self.empDAO.remove(empCd: empCd)){
             self.employeeList.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .fade)}
+        
+    }
+    
+    /** ===================================================================
+     - Note:
+     당겨서 새로고침 액션메소드
+     =====================================================================*/
+    @objc func pullToRefresh( _ sender:UIRefreshControl){
+        // 갱신
+        self.employeeList = self.empDAO.find()
+        self.tableView.reloadData()
+        
+        //  당겨서 새로고침 종료
+        sender.endRefreshing()
         
     }
 
