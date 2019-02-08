@@ -14,6 +14,9 @@ class LogVC: UITableViewController {
     var board : BoardMO!
     
     lazy var list : [LogMO]! = {
+        
+        // LogMO 객체는 따로 fetch 해올 필요가 없다 - Board 를 fetch 해올때 릴레이션으로 인해 자동으로 fetch
+        // 보드에서 어트리뷰트(릴레이션) 의 속성을 [LogMO] 로 반환할뿐 --      1 : M 
         return self.board.logs?.array as! [LogMO]
     }()
     
@@ -21,6 +24,7 @@ class LogVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.navigationItem.title = self.board.title
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -30,25 +34,23 @@ class LogVC: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return self.list.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "logcell", for: indexPath)
 
+        let row = self.list[indexPath.row]
+        cell.textLabel?.text = "\(row.regdate!)에 \(row.type.toLogType())되었습니다 "
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 12)
         // Configure the cell...
 
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -94,7 +96,15 @@ class LogVC: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
+    /*
+   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+       let logVC = self.storyboard?.instantiateViewController(withIdentifier: "LogVC") as! LogVC
+        logVC.board = self.list[indexPath.row]
+    
+    
+    }
+*/
 }
 // - MARK: - 로그타입 열거형
 public enum LogType : Int16 {

@@ -388,3 +388,18 @@ extension ListVC{
         
     }
 }
+// - MARK: - 셀 액세사리 액션 메소드
+extension ListVC{
+    
+  override  func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        let object = self.list[indexPath.row]
+    let logVC = self.storyboard?.instantiateViewController(withIdentifier: "LogVC") as! LogVC
+    logVC.board = object as! BoardMO
+    
+   // self.navigationController?.pushViewController
+    self.show(logVC, sender:self)
+    
+    
+    
+    }
+}
