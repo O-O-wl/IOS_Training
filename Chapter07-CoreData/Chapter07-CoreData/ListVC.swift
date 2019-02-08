@@ -82,13 +82,15 @@ class ListVC: UITableViewController {
         }
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let alert = UIAlertController(title: "게시글 수정", message: nil, preferredStyle: .alert)
-        
         let object = self.list[indexPath.row]
         
         let title = object.value(forKey: "title") as! String
         let contents = object.value(forKey: "contents") as! String
+        let regdate = object.value(forKey: "regdate") as! Date
+        let alert = UIAlertController(title: "게시글 수정", message: "\(regdate)", preferredStyle: .alert)
+        
+        
+        
         
         alert.addTextField(){
             $0.text = title
@@ -103,7 +105,27 @@ class ListVC: UITableViewController {
                 let title = alert.textFields?.first?.text
             let contents = alert.textFields?.last!.text
             if self.edit(object: object, title: title!, contents: contents!) == true{
-                self.tableView.reloadData()            }
+               
+                /**===========================================================
+                                            - Note:
+                            수정에 성공하면 edit메소드에서 fetch 메소드가 실행된다
+                        그 이후 테이블을 모두 리로드하는거 보다는 한 셀만 위로 이동시키는게
+                                            더 좋은 선택이다.
+                 ================================================================*/
+                // self.tableView.reloadData()
+            
+                // 테이블을 리로드하지않으니 배열이수정되도 테이블셀내용이 수정되지않으므로
+                let cell  = self.tableView.cellForRow(at: indexPath)
+                cell?.textLabel?.text = title
+                cell?.detailTextLabel?.text = contents
+                
+                // 첫번째 indexPath 객체 생성
+                let firstPath = IndexPath(item: 0, section: 0)
+                
+                // 셀 이동
+                self.tableView.moveRow(at: indexPath, to: firstPath)
+            }
+                
             })
         
         self.present(alert , animated: false)
@@ -174,6 +196,12 @@ extension ListVC{
         // 요청 객체 생성  - SELECT 구문과 유사 -- 어디서(엔터티 - FROM) 어떤(검색조건 - WHERE) 어떻게 ( 정렬 - ORDER)
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName:"Board")
         
+        // 정렬 조건 객체 생성.
+        let sort = NSSortDescriptor(key: "regdate", ascending: false)
+        
+        // sortDescriptors  은 배열 -- 두개이상의 조건 적용가능하기떄문
+        fetchRequest.sortDescriptors = [sort]
+        
         // 데이터 가져오기  -- 반환은 MO의 배열
         let result = try! context.fetch(fetchRequest)
         
@@ -205,7 +233,13 @@ extension ListVC{
         do{
             // commit
              try context.save()
-            self.list.append(object)
+            
+            // 새로만든 객체를 맨 위로 저장
+            self.list.insert(object, at: 0)
+            
+            
+            self.tableView.reloadData() // 테이블이 재정렬 되지 않는 이유 - 배열만 바뀌엇따 하지만 테이블셀은 배열이 아닌 MO를 참조하고있다.
+            
             return true
         }catch let error as NSError{
             print(" 저장 에러 : \(error.localizedDescription)")
@@ -244,6 +278,8 @@ extension ListVC{
             
             if self.save(title: title , contents: contents ) == true {
                 print("배열 크기 : \(self.list.count)")
+                
+                
                 self.tableView.reloadData()
             }
         })
@@ -301,6 +337,11 @@ extension ListVC{
         
         do{
             try context.save()
+            
+            // 데이터 수정시 배열 다시 컨텍스트와 동기화
+            self.list = self.fetch()
+            
+            
             return true
         }catch{
             context.rollback()
