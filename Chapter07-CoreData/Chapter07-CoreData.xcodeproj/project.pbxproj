@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E2D20C9220D76770080C1BE /* LogVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2D20C8220D76770080C1BE /* LogVC.swift */; };
 		0E9BFE5B220C4E7E00B7F01C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9BFE5A220C4E7E00B7F01C /* AppDelegate.swift */; };
 		0E9BFE60220C4E7E00B7F01C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E9BFE5E220C4E7E00B7F01C /* Main.storyboard */; };
 		0E9BFE63220C4E7E00B7F01C /* Chapter07_CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E9BFE61220C4E7E00B7F01C /* Chapter07_CoreData.xcdatamodeld */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E2D20C8220D76770080C1BE /* LogVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogVC.swift; sourceTree = "<group>"; };
 		0E9BFE57220C4E7E00B7F01C /* Chapter07-CoreData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Chapter07-CoreData.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E9BFE5A220C4E7E00B7F01C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0E9BFE5F220C4E7E00B7F01C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 				0E9BFE66220C4E7F00B7F01C /* LaunchScreen.storyboard */,
 				0E9BFE69220C4E7F00B7F01C /* Info.plist */,
 				0E9BFE61220C4E7E00B7F01C /* Chapter07_CoreData.xcdatamodeld */,
+				0E2D20C8220D76770080C1BE /* LogVC.swift */,
 			);
 			path = "Chapter07-CoreData";
 			sourceTree = "<group>";
@@ -139,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E9BFE70220C515000B7F01C /* ListVC.swift in Sources */,
+				0E2D20C9220D76770080C1BE /* LogVC.swift in Sources */,
 				0E9BFE5B220C4E7E00B7F01C /* AppDelegate.swift in Sources */,
 				0E9BFE63220C4E7E00B7F01C /* Chapter07_CoreData.xcdatamodeld in Sources */,
 			);

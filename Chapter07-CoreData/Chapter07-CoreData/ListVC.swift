@@ -19,6 +19,14 @@ class ListVC: UITableViewController {
         return self.fetch()
     }()
     
+    /** =================================================================
+     - Note:
+                NSSortDescriptor 를 이용한 정렬.
+                    테이블리로드는 애니메이션이없다
+            데이터소스배열과 테이블셀 IndexPath 일치 필수
+     - 불일치시 데이터소스에서 배열을 IndexPath로 가져올시 엉뚱한 데이터 추출 위험성 있음
+
+ =========================================================================*/
     
 
     
@@ -224,11 +232,23 @@ extension ListVC{
         let context = appDelegate.persistentContainer.viewContext
         
         // 관리 객체 생성 - 등록
-        let object = NSEntityDescription.insertNewObject(forEntityName: "Board", into: context)
+        let object = NSEntityDescription.insertNewObject(forEntityName: "Board", into: context) as! BoardMO
         
         object.setValue(title, forKey: "title")
-        object.setValue(contents, forKey: "contents")
+        object.setValue(contents, forKey:  "contents")
         object.setValue(Date(), forKey: "regdate")
+        
+        // 로그객체 생성
+        let logObject = NSEntityDescription.insertNewObject(forEntityName: "Log", into: context) as! LogMO
+        
+        // 로그타입의 생성.연관값으로 Int16 저장
+        logObject.type = LogType.create.rawValue
+        logObject.regdate = Date()
+        
+        // 로그객체를 object 의 logs에 로그객체 등록
+        // logObject.board = (object as! BoardMO)   와 같은 코드
+        object.addToLogs(logObject)
+        
         
         do{
             // commit
@@ -240,6 +260,7 @@ extension ListVC{
             
             self.tableView.reloadData() // 테이블이 재정렬 되지 않는 이유 - 배열만 바뀌엇따 하지만 테이블셀은 배열이 아닌 MO를 참조하고있다.
             
+        
             return true
         }catch let error as NSError{
             print(" 저장 에러 : \(error.localizedDescription)")
@@ -301,8 +322,17 @@ extension ListVC{
         
         let context = appDelegate.persistentContainer.viewContext
         
+        let logObject = NSEntityDescription.insertNewObject(forEntityName:"Log", into: context) as! LogMO
+        
+        logObject.regdate = Date()
+        logObject.type = LogType.delete.rawValue
+        
+        (object as! BoardMO).addToLogs(logObject)
+        
         
         context.delete(object)
+        
+        
         do{
           try context.save()
             return true
@@ -334,6 +364,14 @@ extension ListVC{
         object.setValue(title, forKey: "title")
         object.setValue(contents, forKey: "contents")
         object.setValue(Date(), forKey: "regdate")
+        
+        let logObject = NSEntityDescription.insertNewObject(forEntityName: "Log", into: context) as! LogMO
+        
+        logObject.regdate = Date()
+        logObject.type = LogType.edit.rawValue
+        
+        (object as! BoardMO).addToLogs(logObject)
+        
         
         do{
             try context.save()
