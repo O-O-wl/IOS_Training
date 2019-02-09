@@ -14,6 +14,9 @@ class SideBarVC : UITableViewController{
     let emailLabel = UILabel()
     let profileImage = UIImageView()
     
+    
+    
+    
     let titles = ["새글작성하기","친구 새글","달력으로 보기","공지사항","통계","계정 관리"]
     let icons = [
         UIImage(named: "icon01"),
@@ -24,24 +27,39 @@ class SideBarVC : UITableViewController{
         UIImage(named: "icon06"),
         ]
     
+    
+    
+    
+    
+    let uinfo = UserInfoManager()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.nameLabel.text = self.uinfo.name ?? "로그인을 해주세요"
+        self.emailLabel.text = self.uinfo.account
+         self.profileImage.image = self.uinfo.profile
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 70))
         headerView.backgroundColor = .brown
-        self.nameLabel.text = "개발자 부엉이"
+        //self.nameLabel.text = "개발자 부엉이"
+        self.nameLabel.text = self.uinfo.name ?? "로그인을 해주세요"
         self.nameLabel.textColor = .white
-        self.nameLabel.frame = CGRect(x: 70, y: 15, width: 100, height: 30)
+        self.nameLabel.frame = CGRect(x: 70, y: 15, width: 150, height: 30)
         self.nameLabel.font = UIFont.boldSystemFont(ofSize: 15)
         
         
-        self.emailLabel.text = "devOOwl@apple.com"
+       // self.emailLabel.text = "devOOwl@apple.com"
+        self.emailLabel.text = self.uinfo.account
         self.emailLabel.textColor = .white
         self.emailLabel.frame = CGRect(x: 70, y: 30, width: 150, height: 30)
         self.emailLabel.font = UIFont.systemFont(ofSize: 11)
         self.emailLabel.backgroundColor = .clear
         //self.emailLabel.sizeToFit()
         
-        self.profileImage.image = UIImage(named: "account.jpg")
+        self.profileImage.image = self.uinfo.profile
+      //  self.profileImage.image = UIImage(named: "account.jpg")
         self.profileImage.frame = CGRect(x: 10, y: 10, width: 50, height: 50)
         self.profileImage.layer.cornerRadius = (self.profileImage.frame.width/2)
         self.profileImage.layer.masksToBounds = true // 마스크효과
@@ -86,5 +104,6 @@ class SideBarVC : UITableViewController{
         }
         
     }
+    
 }
 
