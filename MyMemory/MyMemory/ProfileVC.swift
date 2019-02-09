@@ -19,6 +19,13 @@ class ProfileVC : UIViewController , UITableViewDelegate,UITableViewDataSource{
     
     override func viewDidLoad() {
         
+        /// ============================= 이미지뷰에 탭 이벤트 추가 ===============================
+        let tap = UITapGestureRecognizer(target: self, action: #selector(profile(_:))) // 제스처 오브젝트
+        self.profileImage.addGestureRecognizer(tap)        // 제스처를 해당 이미지뷰에 등록
+        self.profileImage.isUserInteractionEnabled = true // 상호작용하는 뷰 라는 표시
+        
+        /// =================================================================================
+        
         // 네비바 타이틀 설정
         self.navigationItem.title = "프로필"
         
@@ -37,6 +44,7 @@ class ProfileVC : UIViewController , UITableViewDelegate,UITableViewDataSource{
         self.profileImage.layer.borderWidth = 0
         
         self.profileImage.image = self.uinfo.profile
+        
         self.view.addSubview(self.profileImage)
         ///======================================================================
         
@@ -198,4 +206,59 @@ extension ProfileVC{
         v.addSubview(btn)
         self.view.addSubview(v)
     }
+}
+// - MARK: - 이미지피커 구현부 -- 프로필사진
+extension ProfileVC : UIImagePickerControllerDelegate , UINavigationControllerDelegate{
+    
+    // 이미지피커 실행 메소드
+    @objc func imgPicker(_ source : UIImagePickerController.SourceType){
+        let imgPicker = UIImagePickerController()
+        imgPicker.sourceType = source
+        imgPicker.delegate = self
+        imgPicker.isEditing = true
+        self.present(imgPicker,animated: true)
+    }
+    
+    // 선택후의 로직
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+       if let img = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
+            self.profileImage.image = img
+            self.uinfo.profile = img
+        
+        print("==============================\(img)=====================")
+        }
+        picker.dismiss(animated: true)
+        
+    }
+    
+    // 이미지피커 실행이전에 리소스 정하는 액션
+    @objc func profile(_ sender:UIButton){
+        if(self.uinfo.account == nil ){
+            self.doLogin(self)
+        }else{
+        let selectResource = UIAlertController(title: nil, message: "사진을 가져올 곳을 선택하세요", preferredStyle: .actionSheet)
+        selectResource.addAction(UIAlertAction(title: "취소", style: .cancel))
+        if UIImagePickerController.isSourceTypeAvailable(.camera){
+            selectResource.addAction(UIAlertAction(title: "카메라", style: .default){
+                (_) in
+                self.imgPicker(.camera)
+            })
+        }
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+            selectResource.addAction(UIAlertAction(title: "포토 라이브러리", style: .default){
+                (_) in
+                self.imgPicker(.photoLibrary)
+            })
+        }
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum){
+            selectResource.addAction(UIAlertAction(title: "사용자 앨범", style: .default){
+                (_) in
+                self.imgPicker(.savedPhotosAlbum)
+                
+            })
+        }
+        self.present(selectResource,animated: true)
+    }
+    }
+    
 }
