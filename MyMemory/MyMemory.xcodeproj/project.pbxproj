@@ -22,6 +22,7 @@
 		0E1F450521F18C9100F2C44B /* MemoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1F450421F18C9100F2C44B /* MemoData.swift */; };
 		0E1F450821F1EE3800F2C44B /* fountainpen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E1F450721F1EE3800F2C44B /* fountainpen@2x.png */; };
 		0E4B82A2220ED44300ED4328 /* UserInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4B82A1220ED44300ED4328 /* UserInfoManager.swift */; };
+		0E4B82A5220F096D00ED4328 /* MyMemory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E4B82A3220F096D00ED4328 /* MyMemory.xcdatamodeld */; };
 		0E6315342201C94A009E407F /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6315332201C94A009E407F /* ProfileVC.swift */; };
 		0E6315362201DC3A009E407F /* coding.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0E6315352201DC39009E407F /* coding.jpg */; };
 		0E9121B821FE592F00370D63 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E9121B721FE592F00370D63 /* SWRevealViewController.m */; };
@@ -55,6 +56,7 @@
 		0E1F450421F18C9100F2C44B /* MemoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoData.swift; sourceTree = "<group>"; };
 		0E1F450721F1EE3800F2C44B /* fountainpen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fountainpen@2x.png"; sourceTree = "<group>"; };
 		0E4B82A1220ED44300ED4328 /* UserInfoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoManager.swift; sourceTree = "<group>"; };
+		0E4B82A4220F096D00ED4328 /* MyMemory.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyMemory.xcdatamodel; sourceTree = "<group>"; };
 		0E6315332201C94A009E407F /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		0E6315352201DC39009E407F /* coding.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = coding.jpg; sourceTree = "<group>"; };
 		0E9121B521FE592E00370D63 /* MyMemory-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyMemory-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 				0E9121B721FE592F00370D63 /* SWRevealViewController.m */,
 				0E1F450621F1EE1C00F2C44B /* res */,
 				0E1F44EA21F1721B00F2C44B /* AppDelegate.swift */,
+				0E4B82A3220F096D00ED4328 /* MyMemory.xcdatamodeld */,
 				0E1F44EE21F1721B00F2C44B /* Main.storyboard */,
 				0E4B82A1220ED44300ED4328 /* UserInfoManager.swift */,
 				0E1F44F121F1721D00F2C44B /* Assets.xcassets */,
@@ -231,6 +234,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E4B82A5220F096D00ED4328 /* MyMemory.xcdatamodeld in Sources */,
 				0E4B82A2220ED44300ED4328 /* UserInfoManager.swift in Sources */,
 				0E6315342201C94A009E407F /* ProfileVC.swift in Sources */,
 				0E05DC5721FDE04600AFD0D3 /* CSLogButton.swift in Sources */,
@@ -446,6 +450,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		0E4B82A3220F096D00ED4328 /* MyMemory.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				0E4B82A4220F096D00ED4328 /* MyMemory.xcdatamodel */,
+			);
+			currentVersion = 0E4B82A4220F096D00ED4328 /* MyMemory.xcdatamodel */;
+			path = MyMemory.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 0E1F44DF21F1721B00F2C44B /* Project object */;
 }
