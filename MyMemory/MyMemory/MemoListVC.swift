@@ -28,10 +28,20 @@ class MemoListVC: UITableViewController {
             self.view.addGestureRecognizer(revealVC.panGestureRecognizer())
         }
         
+        //let tutorial = TutorialMasterVC()
+       // self.present(tutorial,animated: true)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         //self.memos = appDelegate.memoList
+        let ud = UserDefaults.standard
+        // 튜토리얼키가 존재하지않는다면
+        if ud.bool(forKey: UserInfoKey.tutorial) == false {
+            let vc = self.instanceTutorialVC(name: "MasterVC")
+            self.present(vc,animated: false)
+            return
+        }
         self.tableView.reloadData()
     }
 
