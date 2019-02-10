@@ -11,6 +11,7 @@
 		0E05DC5A21FDE26400AFD0D3 /* warning-icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E05DC5821FDE26400AFD0D3 /* warning-icon-60@2x.png */; };
 		0E05DC5B21FDE26400AFD0D3 /* button-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E05DC5921FDE26400AFD0D3 /* button-bg.png */; };
 		0E05DC5D21FDE41F00AFD0D3 /* memo-background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E05DC5C21FDE41F00AFD0D3 /* memo-background@2x.png */; };
+		0E1BD9072210332200656E8F /* MemoDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1BD9062210332200656E8F /* MemoDAO.swift */; };
 		0E1F44EB21F1721B00F2C44B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1F44EA21F1721B00F2C44B /* AppDelegate.swift */; };
 		0E1F44F021F1721B00F2C44B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E1F44EE21F1721B00F2C44B /* Main.storyboard */; };
 		0E1F44F221F1721D00F2C44B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E1F44F121F1721D00F2C44B /* Assets.xcassets */; };
@@ -47,6 +48,7 @@
 		0E05DC5821FDE26400AFD0D3 /* warning-icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warning-icon-60@2x.png"; sourceTree = "<group>"; };
 		0E05DC5921FDE26400AFD0D3 /* button-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-bg.png"; sourceTree = "<group>"; };
 		0E05DC5C21FDE41F00AFD0D3 /* memo-background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "memo-background@2x.png"; sourceTree = "<group>"; };
+		0E1BD9062210332200656E8F /* MemoDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDAO.swift; sourceTree = "<group>"; };
 		0E1F44E721F1721B00F2C44B /* MyMemory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyMemory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E1F44EA21F1721B00F2C44B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0E1F44EF21F1721B00F2C44B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 				0E9121B721FE592F00370D63 /* SWRevealViewController.m */,
 				0E1F450621F1EE1C00F2C44B /* res */,
 				0E1F44EA21F1721B00F2C44B /* AppDelegate.swift */,
+				0E1BD9062210332200656E8F /* MemoDAO.swift */,
 				0E4B82A3220F096D00ED4328 /* MyMemory.xcdatamodeld */,
 				0E1F44EE21F1721B00F2C44B /* Main.storyboard */,
 				0E4B82A1220ED44300ED4328 /* UserInfoManager.swift */,
@@ -257,6 +260,7 @@
 				0E4B82A9221006BD00ED4328 /* Util.swift in Sources */,
 				0E4B82AB2210094B00ED4328 /* TutorialContentsVC.swift in Sources */,
 				0E1F44EB21F1721B00F2C44B /* AppDelegate.swift in Sources */,
+				0E1BD9072210332200656E8F /* MemoDAO.swift in Sources */,
 				0E1F450521F18C9100F2C44B /* MemoData.swift in Sources */,
 				0E1F450121F18C1000F2C44B /* MemoReadVC.swift in Sources */,
 				0E4B82AD22100A8900ED4328 /* TutorialMasterVC.swift in Sources */,

@@ -10,6 +10,8 @@ import UIKit
 
 class MemoFormVC: UIViewController,UINavigationControllerDelegate {
     
+    let memoDAO = MemoDAO()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -70,11 +72,17 @@ class MemoFormVC: UIViewController,UINavigationControllerDelegate {
         let data = MemoData()
         
         self.fillData(data: data)
-        let appDelegate = UIApplication.shared.delegate  as! AppDelegate
-        appDelegate.memoList.append(data)
+        
+       
+        
+        
+        //let appDelegate = UIApplication.shared.delegate  as! AppDelegate
+      //  appDelegate.memoList.append(data)
+        
+         self.memoDAO.insert(data)
         
         _=self.navigationController?.popViewController(animated: true)
-     print(appDelegate.memoList.count)
+   //  print(appDelegate.memoList.count)
         
     }
     

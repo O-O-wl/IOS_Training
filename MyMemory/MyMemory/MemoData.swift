@@ -7,11 +7,18 @@
 //
 import UIKit
 import Foundation
+import CoreData
+
+
 class MemoData{
+    
     var memoIdx : Int?
     var title : String?
     var contents : String?
     var image : UIImage?
     var regdate : Date?
+    
+    // 코어데이터 컨텍스트의 MemoMO 객체를 참조하기위해
+    var objectId : NSManagedObjectID?
 }
 

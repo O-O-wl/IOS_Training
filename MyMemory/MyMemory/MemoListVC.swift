@@ -10,12 +10,20 @@ import UIKit
 
 class MemoListVC: UITableViewController {
 
+
    
-    var memos = [MemoData]()
+    //var memos = [MemoData]()
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
+    let memoDAO = MemoDAO()
    
+    @IBOutlet var searchBar: UISearchBar!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+    //    searhB
+        
+        self.searchBar.enablesReturnKeyAutomatically = false
         /// - Note:  사이드 바 구현부
         if let revealVC = self.revealViewController()
         {
@@ -42,6 +50,10 @@ class MemoListVC: UITableViewController {
             self.present(vc,animated: false)
             return
         }
+        
+        self.appDelegate.memoList = self.memoDAO.fetch()
+        
+        
         self.tableView.reloadData()
     }
 
@@ -132,4 +144,37 @@ class MemoListVC: UITableViewController {
     }
     */
 
+}
+
+
+// - MARK: - 메모 삭제 로직
+extension MemoListVC{
+    
+     // 스와이프로 삭제
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    //==============================================
+    // 코어데이터삭제 , 배열데이터소스 에서 삭제 , 테이블셀 삭제
+    //==============================================
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if  self.memoDAO.delete(self.appDelegate.memoList[indexPath.row].objectId!){
+        self.appDelegate.memoList.remove(at: indexPath.row)
+        self.tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        
+    }
+}
+extension MemoListVC : UISearchBarDelegate{
+    
+    /** ========================================================
+     - Note: 검색 버튼이 클릭되었을 때 실행
+     ==========================================================*/
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print("클릭")
+        let keyword = searchBar.text
+        self.appDelegate.memoList = self.memoDAO.fetch(keyword: keyword )
+        self.tableView.reloadData()
+    }
+   
 }
