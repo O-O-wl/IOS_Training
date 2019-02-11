@@ -56,7 +56,8 @@ class ViewController: UIViewController {
         
         
         /// - Note: URLSession 객체 생성 , 에러처리 , 응답데이터 처리 로직
-        // 전송 준비만 된상태 실제 요청은 아직 안이루어짐
+        // 전송 준비만 된상태 실제 요청은 아직 안이루어짐   - URLSesstionDataTask OBJECT
+        /// - Note: 이 밑에 있는 작업들은 모두 서브스레드에서 돌게된다
         let task = URLSession.shared.dataTask(with:request){
             //=============================================
             //      URLRequest에 대한 응답 처리 로직 클로저
@@ -73,6 +74,20 @@ class ViewController: UIViewController {
                 print("에러 : \(e.localizedDescription)")
                 return
             }
+            
+            
+            
+            
+            
+            /** ======================================================
+                                    - Note:
+                    task의 컴플리트 메소드는 서브 스레드에서 실행된다
+                                여기서 UI를 수정할수 없다
+                    그러므로 특정로직은 메인스레드에서 실행되도록 이관이 필요하다
+                            DispatchQueue.main.async
+                    비동기 처리이지만 Main Thread 에서 실행된다
+             ========================================================*/
+            // - 메인스레드에서 비동기 처리하기위해 --> UI수정가능
             DispatchQueue.main.async {
                 
                 do{
@@ -93,6 +108,11 @@ class ViewController: UIViewController {
            
             
         }
+        ///===================/
+        ///     - Note:       /
+        ///     테스크 실행      /
+        ///===================/
+        task.resume()
     
     
     
