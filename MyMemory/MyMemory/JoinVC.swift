@@ -177,16 +177,19 @@ extension JoinVC{
     @IBAction func submit(_ sender: Any) {
         
         
-        //  실행중에 다시 버튼이 눌렸을시 실행
+        // 진행 중에  재요청 방지 로직
         if self.isCall == true {
             self.alert("진행 중입니다. 잠시만 기다려주세요")
             return
+        }else{
+            self.isCall = true
         }
     
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
         
         // 인디케이터뷰 애니메이셔션 시작
         self.indicatorView.startAnimating()
+        
         
         ///=============================  1. 전달값 준비 =====================================
         //String 으로 변환 - 이미지를 Base64 로 인코딩
@@ -214,11 +217,14 @@ extension JoinVC{
             // 인디케이터 뷰 애니메이션 종료
             self.indicatorView.stopAnimating()
             
+            
+            
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
             
             // JSON 인지 확인 하는 가드구문 
             guard let jsonObject = res.result.value as? [String:Any] else {
                 self.alert("서버 호출 과정에서 오류 발생")
+                self.isCall = false
                 return
             }
             
@@ -226,10 +232,15 @@ extension JoinVC{
             let resultCode = jsonObject["result_code"] as! Int
             if resultCode == 0{
                 self.alert("가입 완료")
+                
+                // 가입완료후 이전페이지로 UNWIND
+                self.performSegue(withIdentifier: "backProfileVC", sender: self)
+                
             }else{
                 // 결과코드가 0(정상) 아니면 error msg
                 let errorMSG = jsonObject["error_msg"] as! String
                 self.alert("오류발생 : \(errorMSG)")
+                self.isCall = false
             }
             
         }

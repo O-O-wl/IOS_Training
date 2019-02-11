@@ -261,4 +261,8 @@ extension ProfileVC : UIImagePickerControllerDelegate , UINavigationControllerDe
     }
     }
     
+    @IBAction func backProfileVC(_ segue:UIStoryboardSegue){
+        
+    }
+    
 }
