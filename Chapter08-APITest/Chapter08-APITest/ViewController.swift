@@ -10,14 +10,14 @@ import UIKit
 import Foundation
 
 class ViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.userId.placeholder = "User ID"
         self.name.placeholder = "Name"
         // Do any additional setup after loading the view, typically from a nib.
     }
-
+    
     @IBOutlet var currentTime: UILabel!
     
     @IBOutlet var responseView: UITextView!
@@ -39,14 +39,14 @@ class ViewController: UIViewController {
         
         
         /// - Note:  URL 객체 생성
-         let url =  URL(string:"http://swiftapi.rubypaper.co.kr:2029/practice/echo")
+        let url =  URL(string:"http://swiftapi.rubypaper.co.kr:2029/practice/echo")
         print("- Note:  URL 객체 생성")
         
         /// - Note: URL객체로 URLRequest 객체 생성 , 전송메소드 . 바디 설정
         var request = URLRequest(url: url!)
         request.httpBody = reqParam
         request.httpMethod  = "POST"
-        print("- Note: 리퀘스트 해더 설정. -- 콘텐츠타입 - 전송된 메세지 본문의 형식")
+        print(" - Note: URL객체로 URLRequest 객체 생성 , 전송메소드 . 바디 설정")
         
         /// - Note: 리퀘스트 해더 설정. -- 콘텐츠타입 - 전송된 메세지 본문의 형식
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
@@ -80,12 +80,12 @@ class ViewController: UIViewController {
             
             
             /** ======================================================
-                                    - Note:
-                    task의 컴플리트 메소드는 서브 스레드에서 실행된다
-                                여기서 UI를 수정할수 없다
-                    그러므로 특정로직은 메인스레드에서 실행되도록 이관이 필요하다
-                            DispatchQueue.main.async
-                    비동기 처리이지만 Main Thread 에서 실행된다
+             - Note:
+             task의 컴플리트 메소드는 서브 스레드에서 실행된다
+             여기서 UI를 수정할수 없다
+             그러므로 특정로직은 메인스레드에서 실행되도록 이관이 필요하다
+             DispatchQueue.main.async
+             비동기 처리이지만 Main Thread 에서 실행된다
              ========================================================*/
             // - 메인스레드에서 비동기 처리하기위해 --> UI수정가능
             DispatchQueue.main.async {
@@ -100,12 +100,17 @@ class ViewController: UIViewController {
                     let userId = jsonObject.value(forKey: "userId") as? String
                     let name = jsonObject.value(forKey: "name") as? String
                     
-                    self.responseView.text = "result:\(result!)\n timestamp:\(timestamp!)\n userId:\(userId!)\n name:\(name!)"
+                    /*
+                     for prop in jsonObject{
+                     self.responseView.text =  self.responseView.text + "\(prop.key)" + ":" + "\(prop.value)" + "\n"
+                     }*/
+                    
+                    self.responseView.text = "result: \(result!)\ntimestamp: \(timestamp!)\nuserId: \(userId!)\nname: \(name!)"
                 }catch let error as NSError{
                     print("에러메시지 : \(error.localizedDescription)")
                 }
             }
-           
+            
             
         }
         ///===================/
@@ -113,9 +118,9 @@ class ViewController: UIViewController {
         ///     테스크 실행      /
         ///===================/
         task.resume()
-    
-    
-    
+        
+        
+        
     }
     
     
@@ -135,6 +140,55 @@ class ViewController: UIViewController {
         }catch let error {
             
         }
+    }
+    
+    
+    
+    @IBAction func json(_ sender: Any) {
+        
+        let url = URL(string: "http://swiftapi.rubypaper.co.kr:2029/practice/echoJSON")
+        
+        /// - Note: 전달할 값 생성 -- reqParameter  , URL 로 넘길수 있게 인코딩
+        let userId = (self.userId.text)!
+        let name = (self.name.text)!
+        let param = ["userId":userId,"name":name] // POST 요청 HTTP 바디에 들어갈 파라미터  - JSON으로 바꿀 딕셔너리
+        
+        let reqParam = try! JSONSerialization.data(withJSONObject: param, options: [])
+        
+        var request = URLRequest(url: url!)
+        request.httpMethod = "POST"
+        request.httpBody = reqParam
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue(String(reqParam.count), forHTTPHeaderField: "Content-Length")
+        
+        let task = URLSession.shared.dataTask(with: request){
+            (data,response,error) in
+            if let e = error {
+                print("에러메시지:\(e.localizedDescription)")
+                return
+            }
+            DispatchQueue.main.async {
+                let object = try! JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary
+                guard let json = object else {return }
+/*
+                let result = json.value(forKey: "result") as? String
+                 let timestamp = json.value(forKey: "timestamp") as? String
+                 let userId = json.value(forKey: "userId") as? String
+                 let name = json.value(forKey: "name") as? String
+    */
+                self.responseView.text = "{\n"
+                for prop in json{
+                    self.responseView.text =  self.responseView.text + "\(prop.key)" + ":" + "\(prop.value)" + "\n"
+                }
+                self.responseView.text = self.responseView.text + "}"
+                
+                
+            }
+            
+        }
+        task.resume()
+        
     }
     
 }
