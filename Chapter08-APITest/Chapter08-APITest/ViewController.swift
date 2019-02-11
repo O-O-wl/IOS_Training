@@ -9,6 +9,7 @@
 import UIKit
 import Foundation
 
+
 class ViewController: UIViewController {
     
     override func viewDidLoad() {
@@ -50,7 +51,7 @@ class ViewController: UIViewController {
         
         /// - Note: 리퀘스트 해더 설정. -- 콘텐츠타입 - 전송된 메세지 본문의 형식
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.setValue("\(request.httpBody?.count)", forHTTPHeaderField: "Content-Length")
+        request.setValue(String(reqParam!.count), forHTTPHeaderField: "Content-Length")
         print("- Note: 리퀘스트 해더 설정. -- 콘텐츠타입 - 전송된 메세지 본문의 형식")
         
         
@@ -179,7 +180,7 @@ class ViewController: UIViewController {
     */
                 self.responseView.text = "{\n"
                 for prop in json{
-                    self.responseView.text =  self.responseView.text + "\(prop.key)" + ":" + "\(prop.value)" + "\n"
+                    self.responseView.text =  self.responseView.text + "\(prop.key)" + " : " + "\(prop.value)" + "\n"
                 }
                 self.responseView.text = self.responseView.text + "}"
                 
