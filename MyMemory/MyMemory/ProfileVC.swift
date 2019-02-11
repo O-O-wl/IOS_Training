@@ -257,7 +257,7 @@ extension ProfileVC : UIImagePickerControllerDelegate , UINavigationControllerDe
                 
             })
         }
-        self.present(selectResource,animated: true)
+        self.present(selectResource,animated: false)
     }
     }
     
