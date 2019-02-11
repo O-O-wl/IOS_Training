@@ -8,7 +8,7 @@
 
 import UIKit
 import Foundation
-
+import Alamofire
 
 class ViewController: UIViewController {
     
@@ -16,6 +16,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         self.userId.placeholder = "User ID"
         self.name.placeholder = "Name"
+        self.responseView.layer.cornerRadius = 5
+        self.responseView.layer.borderWidth = 2
+        self.responseView.layer.borderColor = UIColor.brown.cgColor
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -107,6 +110,9 @@ class ViewController: UIViewController {
                      }*/
                     
                     self.responseView.text = "result: \(result!)\ntimestamp: \(timestamp!)\nuserId: \(userId!)\nname: \(name!)"
+                    let df = DateFormatter()
+                    df.dateFormat = "HH:mm:ss"
+                    print("응답시각: \(df.string(from: Date()))")
                 }catch let error as NSError{
                     print("에러메시지 : \(error.localizedDescription)")
                 }
@@ -118,7 +124,11 @@ class ViewController: UIViewController {
         ///     - Note:       /
         ///     테스크 실행      /
         ///===================/
+        let df = DateFormatter()
+        df.dateFormat = "HH:mm:ss"
+        print("요청시각: \(df.string(from: Date()))")
         task.resume()
+        
         
         
         
@@ -189,6 +199,49 @@ class ViewController: UIViewController {
             
         }
         task.resume()
+        
+    }
+    
+    /**============================================================================
+     - Note:    Alamofire 라이브러리 사용하여 서버에서 URL REQ - RES 처리
+     
+     
+     =============================================================================*/
+    
+    @IBAction func alamofire(_ sender: Any) {
+        let url = "http://swiftapi.rubypaper.co.kr:2029/practice/echo"
+        
+        let param : Parameters = [
+            "userId":"개발자",
+            "name":"부엉이"]
+      
+        
+        // http 요청 설정
+        let alamo = Alamofire.request(url, method: HTTPMethod.post, parameters: param, encoding: URLEncoding.httpBody)
+        
+        
+        /**===================================
+         - Note:   응답 처리 - 트레일링 클로저
+        //===================================*/
+        alamo.responseJSON(){
+            response in
+            print("JSON = \(response.result.value!)")
+            
+            
+            // response.result.value 는 Any 타입이므로 캐스팅해서 사용해야함
+            if let jsonObject = response.result.value as? [String : Any]{
+                
+                
+                
+                DispatchQueue.main.async {
+                    self.responseView.text = ""
+                    for row in jsonObject{
+                        self.responseView.text += ("\(row.key) : \(row.value) \n")
+                    }
+                }
+                
+            }
+        }
         
     }
     
