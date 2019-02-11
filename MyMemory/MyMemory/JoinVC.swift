@@ -8,6 +8,7 @@
 
 import UIKit
 import Foundation
+import Alamofire
 
 class JoinVC : UIViewController,UITableViewDelegate{
   
@@ -16,7 +17,6 @@ class JoinVC : UIViewController,UITableViewDelegate{
     
     @IBOutlet var profile: UIImageView!
     
-    @IBOutlet var submit: UIBarButtonItem!
     
     var fieldAccount: UITextField!
     
@@ -82,6 +82,8 @@ class JoinVC : UIViewController,UITableViewDelegate{
             
         }
     }
+    
+
 }
 // - MARK: - 테이블 뷰 데이터소스
 extension JoinVC : UITableViewDataSource{
@@ -129,6 +131,7 @@ extension JoinVC : UITableViewDataSource{
     }
     
     
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 40
     }
@@ -147,4 +150,64 @@ extension JoinVC: UINavigationControllerDelegate , UIImagePickerControllerDelega
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: false)}
+    
+    
+}
+
+/**======================================================================
+                        - Note: Join API
+ API 도메인      : http://swiftapi.rubypaper.co.kr:2029/
+ API PATH      : userAccount/join
+ HTTP Method   : "POST"
+ REQ Format    : JSON / "account","passwd","name","profile_image"
+ RES Format    : JSON / "result_code","result","error_msg","user_info"
+======================================================================== */
+
+// - MARK: - 서버 API 연동 로직
+extension JoinVC{
+    
+    @IBAction func submit(_ sender: Any) {
+    
+        
+        ///=============================  1. 전달값 준비 =====================================
+        //String 으로 변환 - 이미지를 Base64 로 인코딩
+        let profile = UIImage.pngData(self.profile.image!)()?.base64EncodedString()
+        
+        // 파라미터 객체
+        let param: Parameters = [
+            "account":self.fieldAccount.text!,
+            "name":self.fieldName.text!,
+            "passwd":self.fieldPassword.text!,
+            "profile_image":profile!
+        ]
+        ///=============================  2. API 호출 =====================================
+        let url = "http://swiftapi.rubypaper.co.kr:2029/userAccount/join"
+        
+     
+        let alamo = Alamofire.request(url, method: .post, parameters: param, encoding: JSONEncoding.default)
+        
+        ///=============================  3. 서버 응답값 처리 =====================================
+        
+        alamo.responseJSON(){
+            res in
+            
+            guard let jsonObject = res.result.value as? [String:Any] else {
+                self.alert("서버 호출 과정에서 오류 발생")
+                return
+            }
+            
+            ///=============================  3-2. 응답코드 분기 =====================================
+            let resultCode = jsonObject["result_code"] as! Int
+            if resultCode == 0{
+                self.alert("가입 완료")
+            }else{
+                // 결과코드가 0(정상) 아니면 error msg
+                let errorMSG = jsonObject["error_msg"] as! String
+                self.alert("오류발생 : \(errorMSG)") 
+            }
+            
+        }
+        
+    }
+
 }

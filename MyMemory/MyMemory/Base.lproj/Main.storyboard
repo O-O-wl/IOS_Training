@@ -238,7 +238,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zaE-xs-t6c">
-                                <rect key="frame" x="110" y="80" width="255" height="150"/>
+                                <rect key="frame" x="108" y="80" width="255" height="150"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
@@ -257,11 +257,14 @@
                         <viewLayoutGuide key="safeArea" id="u1w-N2-tQt"/>
                     </view>
                     <navigationItem key="navigationItem" title="신규 계정 등록" id="Auv-Ue-Maj">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="duT-8m-KJU"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="tnI-ul-2Xj">
+                            <connections>
+                                <action selector="submit:" destination="p45-xE-98o" id="xC4-3W-Fl6"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="profile" destination="IZw-uk-3r5" id="3sr-Wo-OUq"/>
-                        <outlet property="submit" destination="duT-8m-KJU" id="m0W-RB-Q9S"/>
                         <outlet property="tableView" destination="zaE-xs-t6c" id="Zya-HI-jY1"/>
                     </connections>
                 </viewController>
