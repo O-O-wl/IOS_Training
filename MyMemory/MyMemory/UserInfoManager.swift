@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+import Alamofire
+
 
 /// - Note: 사용자 정보 관리 클래스
 class UserInfoManager{
@@ -93,8 +95,89 @@ class UserInfoManager{
     }
     
     
-    func login(account : String , password :String) -> Bool{
+    
+    /** ====================================================
+                            - Note:
+                    성공/실패 시 후처리 콜백메소드
+                비동기 처리기 때문에 처리완료후 실행할 로직을 정의
+        후처리 메소드는 옵셔널 , 필요하지않을떄 처리안하기위해 기본 nil
+     =======================================================*/
+    func login(account : String , password :String, success:(()->Void)? = nil, fail: ((String)->Void)? = nil )  {
         
+        let url = "http://swiftapi.rubypaper.co.kr:2029/userAccount/join"
+        
+        let param = ["account":account , "passwd":password ]
+        
+        
+        let alamo = Alamofire.request(url, method: .post
+            , parameters: param, encoding: JSONEncoding.default)
+        
+        alamo.responseJSON(){
+            res in
+            
+            guard let json = res.result.value as? NSDictionary
+            else{
+                fail?("잘못된 응답형식입니다.: \(res.result.value)")
+                return
+            }
+            
+            let resultCode = json.value(forKey: "result_code") as! Int
+            
+            /// - Note:    로그인 성공
+            if resultCode == 0 {
+                
+                let user = json["user_info"] as!  NSDictionary
+                self.loginId = user["user_id"] as! Int
+                self.account = user["account"] as? String
+                self.name = (user["name"] as? String)
+
+                // JSON 에서 PATH 문자열 추출
+                if let path = user["profile_path"] as? String{
+                    // PATH 문자열을 URL로 변환후 Data 불러오기
+                    if let imageData = try? Data(contentsOf: URL(string: path)!){
+                        // 데이터로 UIImage 생성
+                        self.profile = UIImage(data: imageData)
+                    }
+                }
+                success?()
+            }else{
+                    /// - Note:    로그인 실패
+                let msg = (json.value(forKey: "error_msg") as? String) ?? "로그인이 실패했습니다."
+                fail?(msg)
+            }
+        
+            
+        }
+        
+        
+        
+        
+        /***************************************************************************
+                                    - Note: 로그인 API
+         
+         -  API 명         :    Login API
+         -  설명            :    계정/비밀번호를 입력받아 사용자인증토큰 발급-기존 갱신토근과 접속토큰 모두 삭제됨
+         -  API Domain     :    http://swiftapi.rubypaper.co.kr:2029/userAccount/join
+         -  전송메소드        :    POST
+         -  인증헤더 유뮤      :      X
+         -  REQ Format      :    {"account":"ldcpaul@hanmail.net","passwd":"1234"}
+         -  RES Format(S)   :
+                user_info { name , account , user_id , profile_path, result_code }
+                result , token_type , expires_in , refresh_token , access_token,error_msg
+         -  RES Format(F)   : result_code , result , error_msg
+        *****************************************************************************/
+        
+        
+        
+        
+       //============================================================================
+        /**
+         ===================================================
+         - Note: 동기처리 - 서버가 아닌 하드코딩 되어있는 데이터 처리였음
+         
+            비동기 처리를 위해 트레쉬
+         ====================================================
+         
         // 프로퍼티리스트  저장 여부를 통해 ,  로그인여부 확인 -- 실패시 저장이 안되므로 isLogin -> false가 됨
         if(account.elementsEqual("devOOwl@apple.com")  && password.elementsEqual("1234")){
             let ud = UserDefaults.standard
@@ -106,7 +189,7 @@ class UserInfoManager{
             return true
         }else{
             return false
-        }
+        }*/
     }
     
     

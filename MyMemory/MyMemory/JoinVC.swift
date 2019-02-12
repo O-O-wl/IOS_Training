@@ -231,11 +231,13 @@ extension JoinVC{
             ///=============================  3-2. 응답코드 분기 =====================================
             let resultCode = jsonObject["result_code"] as! Int
             if resultCode == 0{
-                self.alert("가입 완료")
-                
-                // 가입완료후 이전페이지로 UNWIND
-                self.performSegue(withIdentifier: "backProfileVC", sender: self)
-                
+                self.alert("가입 완료"){
+                    
+                    // 가입완료후 이전페이지로 UNWIND
+                    self.performSegue(withIdentifier: "backProfileVC", sender: self)
+                    
+                }
+              
             }else{
                 // 결과코드가 0(정상) 아니면 error msg
                 let errorMSG = jsonObject["error_msg"] as! String
