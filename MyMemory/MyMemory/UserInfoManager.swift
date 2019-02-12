@@ -275,17 +275,51 @@ class UserInfoManager{
     
     
     
-    func newProfile(_ profile:UIImage? , success:(()->Void)? = nil , fail: (()->Void)? = nil ){
-    
+    func newProfile(_ profile:UIImage? , success:(()->Void)? = nil , fail: ((String)->Void)? = nil ){
+        
+        let url = "http://swiftapi.rubypaper.co.kr:2029/userAccount/profile"
+        
+        let param = ["profile_image":profile?.pngData()]
+        
+        
+        let token = TokenUtils()
+        
+        let header = token.getAuthorizationHeader2
+        
+        let alamoRequest = Alamofire.request(url, method: HTTPMethod.post , parameters: param, encoding: JSONEncoding.default, headers: header)
+        
+        alamoRequest.responseJSON(completionHandler: {
+           res in
+            
+            guard let json = res.result.value as? NSDictionary
+            else{
+                fail?("JSON 형식이 아닙니다")
+                return
+            }
+            
+            let resultCode = json["result_code"] as! Int
+            
+            if resultCode == 0 {
+                print("프로필 사진 변경 성공")
+                self.profile = profile
+                success?()
+                
+            }else{
+                let msg = json.value(forKey: "error_msg") as? String ?? "이미지 변경 실패"
+                fail?(msg)
+            }
+            
+        })
     /***************************************************************************
      - Note: 프로필 갱신 API
      
      -  API 명           :    Profile API
-     -  설명             :    사용자 접속토큰 , 갱신토큰 폐기
+     -  설명             :     사용자의 프로필 업데이트
      -  API Domain      :    http://swiftapi.rubypaper.co.kr:2029/userAccount/profile
      -  전송메소드         :    POST
      -  인증헤더 유뮤       :      O
-     -  RES Format(S,F) :      result_code , result , error_msg
+     -  REQ Format      :       {"profile_image" : 바이너리 데이터 }
+     -  RES Format(S,F) :    result_code , result , error_msg
      *****************************************************************************/
 
     
