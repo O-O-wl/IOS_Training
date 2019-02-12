@@ -104,7 +104,7 @@ class UserInfoManager{
      =======================================================*/
     func login(account : String , password :String, success:(()->Void)? = nil, fail: ((String)->Void)? = nil )  {
         
-        let url = "http://swiftapi.rubypaper.co.kr:2029/userAccount/join"
+        let url = "http://swiftapi.rubypaper.co.kr:2029/userAccount/login"
         
         let param = ["account":account , "passwd":password ]
         
@@ -209,20 +209,85 @@ class UserInfoManager{
     
     
 
-    func logout() -> Bool{
+    func logout(complete : (()->Void)? = nil){
+       
+        
+        let url = "http://swiftapi.rubypaper.co.kr:2029/userAccount/logout"
+        
+        let token = TokenUtils()
+        
+        let header  = token.getAuthorizationHeader2
+        
+        let alamo = Alamofire.request(url, method: .post, parameters: nil, encoding: JSONEncoding.default , headers: header)
+        
+        alamo.responseJSON(){
+            (_) in
+            
+            self.localLogout()
+            
+            complete?()
+            
+            
+           }
+
+        
+  
+        /***************************************************************************
+         - Note: 로그아웃 API
+         
+         -  API 명           :    Logout API
+         -  설명             :    사용자 접속토큰 , 갱신토큰 폐기
+         -  API Domain      :    http://swiftapi.rubypaper.co.kr:2029/userAccount/logout
+         -  전송메소드         :    POST
+         -  인증헤더 유뮤       :      O
+         -  RES Format(S,F) :       result_code , result , error_msg
+         *****************************************************************************/
+        
+    }
+    
+    
+    /**=========================================================
+                    - Note: 로컬 로그아웃 메소드
+     
+                        프로퍼티 리스트에서 삭제
+                키체인에서 엑세스토큰 , 리프레쉬토큰 삭제
+     ==========================================================*/
+    func localLogout(){
+    
+        // 프로퍼티 리스트에서 삭제
         let ud = UserDefaults.standard
         ud.removeObject(forKey: UserInfoKey.account)
         ud.removeObject(forKey: UserInfoKey.loginId)
         ud.removeObject(forKey: UserInfoKey.name)
         ud.removeObject(forKey: UserInfoKey.profile)
         ud.synchronize()
-        return true
+        
+        
+        
+        let token = TokenUtils()
+        let service = "kr.co.rubypaper.MyMemory"
+        
+        // 키체인 에서 토큰 삭제
+       token.delete(service, account: "accessToken")
+      token.delete(service, account: "refreshToken")
+        
     }
     
     
     
+    func newProfile(_ profile:UIImage? , success:(()->Void)? = nil , fail: (()->Void)? = nil ){
     
-    
+    /***************************************************************************
+     - Note: 프로필 갱신 API
+     
+     -  API 명           :    Profile API
+     -  설명             :    사용자 접속토큰 , 갱신토큰 폐기
+     -  API Domain      :    http://swiftapi.rubypaper.co.kr:2029/userAccount/profile
+     -  전송메소드         :    POST
+     -  인증헤더 유뮤       :      O
+     -  RES Format(S,F) :      result_code , result , error_msg
+     *****************************************************************************/
+
     
 }
 
@@ -233,4 +298,5 @@ struct UserInfoKey {
     static let name = "NAME"
     static let profile = "PROFILE"
     static let tutorial = "TUTORIAL"
+}
 }

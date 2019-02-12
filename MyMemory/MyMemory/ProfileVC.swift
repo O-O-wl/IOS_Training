@@ -179,11 +179,11 @@ extension ProfileVC{
         
        
         loginAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel){(_) in self.isCalling = false})// 하려다 말았으므로 , 다시 로그인 요청상태 false
-        loginAlert.addAction(UIAlertAction(title: "Login", style: .destructive ){
+        loginAlert.addAction(UIAlertAction(title: "Login", style: .default ){
             (_) in
             
             // 로그인 버튼 액션 메소드 클로저
-            
+            print("로그인 요청")
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
             
             let account = loginAlert.textFields?.first!.text ?? ""
@@ -194,21 +194,32 @@ extension ProfileVC{
             /// - Note: 비동기 메소드 login 실행 로직
             ///===================================
             self.uinfo.login(account: account, password: passwd, success: {
+                DispatchQueue.main.async {
+                    
+                
                 /// - Note: 비동기 처리 이후 실행될 로직 담당하는 클로저
+                print("로그인 성공")
                 self.isCalling = false
                 self.tvUserInfo.reloadData()
                 self.profileImage.image = self.uinfo.profile // 프로필 이미지 갱신
                 self.drawBtn() // 로그아웃 버튼으로 변환
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                
-                
+                self.alert("로그인 성공")
+                }
             }, fail: {
                 msg in
+                DispatchQueue.main.async {
+                  
+                
                 self.alert(msg)
                 self.isCalling = false
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                
+                self.alert("로그인 실패")
+               // self.present(loginAlert,animated: false)
+                }
             })
-            self.present(loginAlert,animated: false)
+            
             
             /*
             if self.uinfo.login(account: alert.textFields?.first!.text ?? "", password: alert.textFields?.last!.text ?? ""){
@@ -240,16 +251,19 @@ extension ProfileVC{
     
     
     @objc func doLogout(_ sender:Any) {
+        
+        
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         let logoutAlert = UIAlertController(title: nil , message: "로그아웃을 하시겠습니까?", preferredStyle: .alert)
         logoutAlert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
-        logoutAlert.addAction(UIAlertAction(title: "확인", style: .default){
+        logoutAlert.addAction(UIAlertAction(title: "확인", style: .destructive){
             (_) in
-            if( self.uinfo.logout()){
+            self.uinfo.logout(){
                 
                 self.tvUserInfo.reloadData()
                 self.drawBtn()
                 self.profileImage.image = self.uinfo.profile
-                
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }
         })
       
