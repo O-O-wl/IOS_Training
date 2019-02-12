@@ -16,6 +16,10 @@ class ProfileVC : UIViewController , UITableViewDelegate,UITableViewDataSource{
     let uinfo = UserInfoManager()
     
     
+    // 로그인 API 요청상태
+    var isCalling = false
+    
+    
     
     override func viewDidLoad() {
         
@@ -127,11 +131,50 @@ class ProfileVC : UIViewController , UITableViewDelegate,UITableViewDataSource{
 // - MARK: - 로그인 메소드
 extension ProfileVC{
     @objc func doLogin(_ sender : Any){
-        let alert = UIAlertController(title: "LOG IN", message: nil, preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "Login", style: .destructive ){
+        if self.isCalling{
+            self.alert("로그인 요청중입니다.\n잠시만 기다려주세요.")
+            return
+        }else{
+            self.isCalling = true
+        }
+        
+        let loginAlert = UIAlertController(title: "LOG IN", message: nil, preferredStyle: .alert)
+        
+       
+        loginAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel){(_) in self.isCalling = false})// 하려다 말았으므로 , 다시 로그인 요청상태 false
+        loginAlert.addAction(UIAlertAction(title: "Login", style: .destructive ){
             (_) in
+            
+            // 로그인 버튼 액션 메소드 클로저
+            
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+            
+            let account = loginAlert.textFields?.first!.text ?? ""
+            let passwd = loginAlert.textFields?.last!.text ?? ""
+            
+            
+            ///===================================
+            /// - Note: 비동기 메소드 login 실행 로직
+            ///===================================
+            self.uinfo.login(account: account, password: passwd, success: {
+                /// - Note: 비동기 처리 이후 실행될 로직 담당하는 클로저
+                self.isCalling = false
+                self.tvUserInfo.reloadData()
+                self.profileImage.image = self.uinfo.profile // 프로필 이미지 갱신
+                self.drawBtn() // 로그아웃 버튼으로 변환
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                
+                
+            }, fail: {
+                msg in
+                self.alert(msg)
+                self.isCalling = false
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            })
+            self.present(loginAlert,animated: false)
+            
+            /*
             if self.uinfo.login(account: alert.textFields?.first!.text ?? "", password: alert.textFields?.last!.text ?? ""){
                 self.tvUserInfo.reloadData()
                 self.drawBtn()
@@ -143,20 +186,20 @@ extension ProfileVC{
                 
                 self.present(alert,animated: false)
                 
-            }
+            }*/
             
             
         })
         
-        alert.addTextField(){
+        loginAlert.addTextField(){
             $0.placeholder = "Your Account"
         }
-        alert.addTextField(){
+        loginAlert.addTextField(){
             $0.placeholder = "Password"
             $0.isSecureTextEntry = true
         }
         
-        self.present(alert,animated: false)
+        self.present(loginAlert,animated: false)
     }
     
     
@@ -178,7 +221,7 @@ extension ProfileVC{
         self.present(logoutAlert,animated: false)
     }
     
-    // 로그아웃버튼 생성
+    // 로그인 / 로그아웃버튼 생성
     func drawBtn(){
         let v = UIView()
         v.frame.size.width = self.view.frame.width

@@ -24,6 +24,7 @@ class MemoListVC: UITableViewController {
     //    searhB
         
         self.searchBar.enablesReturnKeyAutomatically = false
+        
         /// - Note:  사이드 바 구현부
         if let revealVC = self.revealViewController()
         {
