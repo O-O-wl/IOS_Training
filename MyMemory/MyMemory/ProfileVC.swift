@@ -83,12 +83,48 @@ class ProfileVC : UIViewController , UITableViewDelegate,UITableViewDataSource{
         
         self.navigationController?.navigationBar.isHidden = true
        self.drawBtn()
+        
+        
+        
+        
+        // 프로필 화면 띄울시 인증토큰 콘솔 로그
+        
+        let token = TokenUtils()
+        
+        if let accessToken = token.load("kr.co.rubypaper.MyMemory", account: "accessToken"){
+            NSLog("엑세스 토큰 : \(accessToken)")
+        }else{
+              NSLog("엑세스 토큰 : nil")
+        }
+        
+        
+        
+        if let refreshToken = token.load("kr.co.rubypaper.MyMemory", account: "refreshToken"){
+            NSLog("리프레쉬 토큰 : \(refreshToken)")
+        }
+        else{
+            NSLog("리프레쉬 토큰 : nil")
+        }
+        
+        
+        
+        
     }
     
+    
+    
+    
+    
+    //================================
     // dismiss  계층이 아닌 개별 뷰 엿음
+    //[=================================3
     @objc func close(_ sender :Any){
         self.presentingViewController?.dismiss(animated: true)
     }
+    
+    
+    
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if !uinfo.isLogin {

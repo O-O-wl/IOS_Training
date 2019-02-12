@@ -139,6 +139,21 @@ class UserInfoManager{
                         self.profile = UIImage(data: imageData)
                     }
                 }
+                
+                /// - Note: 인증토큰 저장로직
+                
+                // 1. 로그인 API 에서 반환받은 토큰값을 키체인에 저장
+                let accessToken = json.value(forKey: "access_token") as! String
+                let refreshToken = json["refresh_token"] as! String
+                
+                let tk = TokenUtils()
+                
+                tk.save("kr.co.rubypaper.MyMemory", account: "accessToken", value: accessToken)
+                tk.save("kr.co.rubypaper.MyMemory", account: "refreshToken", value: refreshToken)
+                
+                
+                
+                
                 success?()
             }else{
                     /// - Note:    로그인 실패
