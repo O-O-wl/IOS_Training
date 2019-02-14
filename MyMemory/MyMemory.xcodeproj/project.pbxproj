@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E04FD15221596F20076EBE9 /* TokenUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E04FD14221596F20076EBE9 /* TokenUtils.swift */; };
 		0E05DC5721FDE04600AFD0D3 /* CSLogButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E05DC5621FDE04600AFD0D3 /* CSLogButton.swift */; };
 		0E05DC5A21FDE26400AFD0D3 /* warning-icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E05DC5821FDE26400AFD0D3 /* warning-icon-60@2x.png */; };
 		0E05DC5B21FDE26400AFD0D3 /* button-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E05DC5921FDE26400AFD0D3 /* button-bg.png */; };
@@ -46,6 +47,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E04FD14221596F20076EBE9 /* TokenUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenUtils.swift; sourceTree = "<group>"; };
 		0E05DC5621FDE04600AFD0D3 /* CSLogButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSLogButton.swift; sourceTree = "<group>"; };
 		0E05DC5821FDE26400AFD0D3 /* warning-icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warning-icon-60@2x.png"; sourceTree = "<group>"; };
 		0E05DC5921FDE26400AFD0D3 /* button-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-bg.png"; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				0E4B82A62210031500ED4328 /* Tutorial.storyboard */,
 				0E4B82AC22100A8900ED4328 /* TutorialMasterVC.swift */,
 				0E4B82A8221006BD00ED4328 /* Util.swift */,
+				0E04FD14221596F20076EBE9 /* TokenUtils.swift */,
 				0E4B82AA2210094B00ED4328 /* TutorialContentsVC.swift */,
 				0E1F44F321F1721D00F2C44B /* LaunchScreen.storyboard */,
 				0E1F44F621F1721D00F2C44B /* Info.plist */,
@@ -179,7 +182,6 @@
 				870A80D18441D82D0EDDAACF /* Pods-MyMemory.debug.xcconfig */,
 				A95346DDD4970B7EE3BFFCE9 /* Pods-MyMemory.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -344,6 +346,7 @@
 				0E4B82AD22100A8900ED4328 /* TutorialMasterVC.swift in Sources */,
 				0E1F44FF21F18BFF00F2C44B /* MemoFormVC.swift in Sources */,
 				0E9121CC21FE5C2F00370D63 /* SideBarVC.swift in Sources */,
+				0E04FD15221596F20076EBE9 /* TokenUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,6 +8,9 @@
 
 import Foundation
 import UIKit
+import Alamofire
+import LocalAuthentication
+
 
 class ProfileVC : UIViewController , UITableViewDelegate,UITableViewDataSource{
     
@@ -314,9 +317,24 @@ extension ProfileVC : UIImagePickerControllerDelegate , UINavigationControllerDe
     
     // 선택후의 로직
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        
+        
        if let img = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
+        
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        self.uinfo.newProfile(img,success: {
+            //self.alert("프로필 사진이 변경되었습니다.")
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            
+        }){
+            msg in
+            self.alert(msg)
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        }
+        
             self.profileImage.image = img
-            self.uinfo.profile = img
+        
         
         print("==============================\(img)=====================")
         }
@@ -358,4 +376,170 @@ extension ProfileVC : UIImagePickerControllerDelegate , UINavigationControllerDe
         
     }
     
+}
+// - MARK: - 로컬인증 - 인증토큰 갱신 - 터치아이디인증
+extension ProfileVC{
+    
+    /**===========================================
+     - Note: 토큰 인증 메소드 -- 토큰 유효성 검증
+     ============================================*/
+    func tokenValidate(){
+        
+        
+        // 0. 응답캐시를 사용하지 않게 설정 -- 서버와 디바이스간의 데이터 불일치 발생가능성 억제
+        URLCache.shared.removeAllCachedResponses()
+        
+        
+        // 1. 키 체인에 엑세스 토큰이 없을 경우 유효성 검증 진행하지않음
+        let tk = TokenUtils()
+        /// - Note: 엑세스 토큰 유효성 확인
+       guard let header = tk.getAuthorizationHeader2 else {
+            return
+        }
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
+        
+        // 2. tokenVaildate API 호출
+        let url = "http://swiftapi.rubypaper.co.kr:2029/userAccount/tokenValidate"
+        let alamo = Alamofire.request(url, method: .post, parameters: nil, encoding: JSONEncoding.default, headers: header)
+        
+        // 3. 호출 API 후처리 클로저
+        alamo.responseJSON(){
+            
+            res in
+            
+            
+             UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            
+            print(res.result.value!)
+            
+            guard let jsonObject = res.result.value as? NSDictionary
+                else{
+                self.alert("잘못된 RES 포맷입니다.")
+                return
+            }
+            
+            let resultCode = jsonObject["result_code"] as! Int
+            
+            if resultCode != 0 {
+                self.touchID()
+                
+            }
+    
+        } // 클로저 - end
+        
+    } // tokenVaildate() end
+    
+    
+    /**===========================================
+     - Note:  터치아이디 로컬인증 -- 사용자 확인
+     ============================================*/
+    func touchID(){
+        
+        // 1. LA컨텍스트 생성
+        let context = LAContext()
+        
+        // 2. 인증에 필요한 변수 정의
+        var error : NSError?
+        let msg = "인증이 필요합니다."
+        
+        /// - Note: 인증정책 - 터치아이디인증
+        let deviceAuth = LAPolicy.deviceOwnerAuthenticationWithBiometrics
+        
+        // 3. 로컬 인증 (터치아이디 인증 정책 - deviceOwnerAuthenticationWithBiometrics )의 가능 유무 확인
+        if context.canEvaluatePolicy(deviceAuth, error: &error){
+            
+            // 4. 인증 실행
+            context.evaluatePolicy(deviceAuth, localizedReason: msg){
+                (success , error) in
+                
+                // 5 . 인증 성공 : success 가 nil 이 아닐시
+                if success{
+                    /// - Note: 토큰 갱신 실행
+                    self.refresh()
+                }
+                    /// - Note: 인증실패
+                else{
+                    // 인증 실패 원인 대응 로직
+                    
+                }
+            
+                
+            }// 인증 구문 - end -
+            
+            
+        } // 인증 확인 메소드 end
+        
+    }
+    
+    
+    /**===========================================
+     - Note: 인증 토큰 갱신 메소드 -- 토큰 갱신
+     ============================================*/
+    func refresh(){
+        
+        
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
+        // 1. 인증헤더 생성
+        let tk = TokenUtils()
+        let header = tk.getAuthorizationHeader2
+        
+        
+        // 2. 리프레시 토큰 전달 준비
+        /// - Note: 리프레시 토큰 꺼내오기 - 엑세스토큰 재발급 요청준비
+        let refreshToken = tk.load("kr.co.rubypaper.MyMemory", account: "refreshToken")
+        
+        let param : Parameters = ["refresh_token":refreshToken!]
+        
+        // 3. 호출 및 응답
+        
+        let url = "http://swiftapi.rubypaper.co.kr:2029/userAccount/refresh"
+        let alamo = Alamofire.request(url, method: .post, parameters: param
+            , encoding: JSONEncoding.default , headers: header)
+        
+        alamo.responseJSON(){
+            res in
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            
+            guard let json = res.result.value as? NSDictionary
+            else{
+                self.alert("올바른 포맷이 아닙니다.")
+                return
+            }
+            
+            // 4. 응답 결과 처리
+            let resultCode = json["result_code"] as! Int
+            
+            if resultCode == 0 { /// - Note: 성공. - 서버에서 리프레시 토큰을 이용한 엑세스 토큰 재발급
+                
+                let accessToken = json["access_token"] as! String
+                
+                // 키체인에서 엑세스 토큰 교체
+                let tk = TokenUtils()
+                tk.save("kr.co.rubypaper.MyMemory", account: "accessToken", value: accessToken)
+        
+                
+            }else{  /// - Note: 실패
+                self.alert("인증이 만료되었으므로 , 다시 로그인해야 합니다.")
+            }
+        }
+    }
+    
+    
+    
+    /***************************************************************************
+     - Note:  토근 유효성 검증 API
+     
+     -  API 명           :   TokenValidate API
+     -  설명             :    토큰의 유효성 여부를 검증합니다
+     -  API Domain      :    http://swiftapi.rubypaper.co.kr:2029/userAccount/tokenValidate
+     -  전송메소드         :    POST
+     -  인증헤더 유뮤       :    O
+     -  REQ Format      :     -
+     -  RES Format(S,F) :    result_code , result , error_msg
+     *****************************************************************************/
+
+    
+
 }
