@@ -23,6 +23,11 @@ class ProfileVC : UIViewController , UITableViewDelegate,UITableViewDataSource{
     var isCalling = false
     
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.tokenValidate()
+    }
+    
+    
     
     override func viewDidLoad() {
         
@@ -447,12 +452,11 @@ extension ProfileVC{
         let deviceAuth = LAPolicy.deviceOwnerAuthenticationWithBiometrics
         
         // 3. 로컬 인증 (터치아이디 인증 정책 - deviceOwnerAuthenticationWithBiometrics )의 가능 유무 확인
-        if context.canEvaluatePolicy(deviceAuth, error: &error){
+        if context.canEvaluatePolicy(deviceAuth, error: &error){ /// - Note: 인증창 생성 성공/실패
             
             // 4. 인증 실행
-            context.evaluatePolicy(deviceAuth, localizedReason: msg){
+            context.evaluatePolicy(deviceAuth, localizedReason: msg){ /// - Note: 인증 성공 실패
                 (success , error) in
-                
                 // 5 . 인증 성공 : success 가 nil 이 아닐시
                 if success{
                     /// - Note: 토큰 갱신 실행
@@ -461,14 +465,52 @@ extension ProfileVC{
                     /// - Note: 인증실패
                 else{
                     // 인증 실패 원인 대응 로직
+                    print((error?.localizedDescription)!)
+                    switch(error!._code){
+                        
+                    case LAError.systemCancel.rawValue:
+                        self.alert("시스템에 의해 인증이 취소되었습니다.")
+                        
+                        // 취소버튼
+                    case LAError.userCancel.rawValue:
+                        self.alert("사용자에 의해 인증이 취소되었습니다."){
+                            self.commonLogout(true)
+                        }
+                        
+                        // 암호로 로그인 버튼
+                    case LAError.userFallback.rawValue:
+                        /// - Note: 인증창 과 경고창사이의 충돌 발생 --> 큐에 들어온 작업을 순차적으로 처리하게하는 메소드
+                        OperationQueue.main.addOperation {
+                            self.commonLogout(true)
+                        }
+                    default:
+                        OperationQueue.main.addOperation {
+                            self.commonLogout(true)
+                        }
+                    }
                     
                 }
             
                 
             }// 인증 구문 - end -
-            
+         
             
         } // 인증 확인 메소드 end
+        else{
+        /// - Note: 터치아이디 인증사용불가능
+        print(error!.localizedDescription)
+            switch(error!.code){
+            case LAError.touchIDNotEnrolled.rawValue:
+                print("터치아이디 미등록")
+                
+            case LAError.passcodeNotSet.rawValue:
+                print("패스코드 미등록")
+            default:
+                print("터치아이디 사용불가")
+            }
+            
+            self.commonLogout(true)
+    }
         
     }
     
@@ -511,6 +553,9 @@ extension ProfileVC{
             // 4. 응답 결과 처리
             let resultCode = json["result_code"] as! Int
             
+            
+            /// - Note: 리프레시토큰 재발급 성공실패
+            
             if resultCode == 0 { /// - Note: 성공. - 서버에서 리프레시 토큰을 이용한 엑세스 토큰 재발급
                 
                 let accessToken = json["access_token"] as! String
@@ -522,6 +567,9 @@ extension ProfileVC{
                 
             }else{  /// - Note: 실패
                 self.alert("인증이 만료되었으므로 , 다시 로그인해야 합니다.")
+                OperationQueue.main.addOperation {
+                    self.commonLogout(true)
+                }
             }
         }
     }
@@ -541,5 +589,40 @@ extension ProfileVC{
      *****************************************************************************/
 
     
+    
 
 }
+// - MARK: - 토큰 갱신실패 , 인증실패 예외처리
+extension ProfileVC{
+    
+    /**=======================================================
+     - Note: 토큰 갱신과정 에서 발생할 실패나 오류에서 사용할 로그아웃 메소드
+     ========================================================*/
+    func commonLogout(_ isLogin: Bool = false){
+        
+        // 1. 저장된 개인정보 , 키체인데이터 삭제 후 로그아웃상태로 전환  :  데이터상 로그아윳
+        let userInfo = UserInfoManager()
+        userInfo.localLogout()
+        
+        
+        // 2. 현재화면 UI갱신 : 화면상 로그아웃
+        self.tvUserInfo.reloadData()
+        self.profileImage.image  = userInfo.profile
+        self.drawBtn()
+        
+        
+        // 3. 로그인창을 띄워주는 트리거 코드
+        if isLogin{
+            self.doLogin(self)
+        }
+    }
+    /// commonLogout end
+    
+    
+    /**=======================================================
+     - Note: 토큰 갱신과정 에서 발생할 실패나 오류에서 사용할 로그아웃 메소드
+     ========================================================*/
+    
+    
+}
+

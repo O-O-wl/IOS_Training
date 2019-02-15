@@ -52,7 +52,7 @@ class TutorialMasterVC  : UIViewController , UIPageViewControllerDataSource{
     @IBAction func close(_ sender: Any) {
         
         let ud = UserDefaults.standard
-        ud.set(true, forKey: UserInfoKey.tutorial)
+        ud.set(true, forKey: UserInfoManager.UserInfoKey.tutorial)
         ud.synchronize()
         
         self.presentingViewController?.dismiss(animated: true)

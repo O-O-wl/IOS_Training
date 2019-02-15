@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0E04FD15221596F20076EBE9 /* TokenUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E04FD14221596F20076EBE9 /* TokenUtils.swift */; };
+		0E04FD1722168AFC0076EBE9 /* DataSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E04FD1622168AFC0076EBE9 /* DataSync.swift */; };
 		0E05DC5721FDE04600AFD0D3 /* CSLogButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E05DC5621FDE04600AFD0D3 /* CSLogButton.swift */; };
 		0E05DC5A21FDE26400AFD0D3 /* warning-icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E05DC5821FDE26400AFD0D3 /* warning-icon-60@2x.png */; };
 		0E05DC5B21FDE26400AFD0D3 /* button-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E05DC5921FDE26400AFD0D3 /* button-bg.png */; };
@@ -48,6 +49,7 @@
 
 /* Begin PBXFileReference section */
 		0E04FD14221596F20076EBE9 /* TokenUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenUtils.swift; sourceTree = "<group>"; };
+		0E04FD1622168AFC0076EBE9 /* DataSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSync.swift; sourceTree = "<group>"; };
 		0E05DC5621FDE04600AFD0D3 /* CSLogButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSLogButton.swift; sourceTree = "<group>"; };
 		0E05DC5821FDE26400AFD0D3 /* warning-icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warning-icon-60@2x.png"; sourceTree = "<group>"; };
 		0E05DC5921FDE26400AFD0D3 /* button-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-bg.png"; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				0E1F44EA21F1721B00F2C44B /* AppDelegate.swift */,
 				0E1BD9062210332200656E8F /* MemoDAO.swift */,
 				0E4B82A3220F096D00ED4328 /* MyMemory.xcdatamodeld */,
+				0E04FD1622168AFC0076EBE9 /* DataSync.swift */,
 				0E1F44EE21F1721B00F2C44B /* Main.storyboard */,
 				0E234BBE221188990030BA12 /* JoinVC.swift */,
 				0E4B82A1220ED44300ED4328 /* UserInfoManager.swift */,
@@ -330,6 +333,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E4B82A5220F096D00ED4328 /* MyMemory.xcdatamodeld in Sources */,
+				0E04FD1722168AFC0076EBE9 /* DataSync.swift in Sources */,
 				0E4B82A2220ED44300ED4328 /* UserInfoManager.swift in Sources */,
 				0E6315342201C94A009E407F /* ProfileVC.swift in Sources */,
 				0E05DC5721FDE04600AFD0D3 /* CSLogButton.swift in Sources */,

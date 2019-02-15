@@ -46,7 +46,7 @@ class MemoListVC: UITableViewController {
         //self.memos = appDelegate.memoList
         let ud = UserDefaults.standard
         // 튜토리얼키가 존재하지않는다면
-        if ud.bool(forKey: UserInfoKey.tutorial) == false {
+        if ud.bool(forKey: UserInfoManager.UserInfoKey.tutorial) == false {
             let vc = self.instanceTutorialVC(name: "MasterVC")
             self.present(vc,animated: false)
             return
